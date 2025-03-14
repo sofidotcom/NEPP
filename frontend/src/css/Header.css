@@ -1,0 +1,80 @@
+.header-menu {
+      position: fixed; /* Make the header fixed */
+  top: 0; /* Position it at the top of the viewport */
+  left: 0; /* Align it to the left */
+  width: 100%; /* Make it full width */
+
+  font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+  display: flex;
+  column-gap: 50%;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  position: sticky;
+  
+}
+
+.header-menu h1 {
+  margin: 0;
+  font-size: 24px;
+  color: red;
+}
+
+.header-nav {
+  display: flex;
+  gap: 5%;
+  
+}
+
+.header-nav button {
+  padding: 8px 8px;
+  font-size: 19px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: whitesmoke;
+  height: 50px;
+  width: 100px;
+  
+}
+
+
+
+.dropdown {
+  position: relative;
+  background-color: #007bff;
+  border-radius: 15px;
+
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.dropdown-content a {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.header-nav button.logout{
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+}
+

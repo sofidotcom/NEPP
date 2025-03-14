@@ -1,0 +1,92 @@
+/* UploadNoteForm.css */
+
+.upload-note-container {
+  width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload-note-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.upload-note-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-note-container label {
+  font-size: 16px;
+  color: #34495e;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.upload-note-container input[type="text"],
+.upload-note-container textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.upload-note-container textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.upload-note-container button {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+}
+
+.upload-note-container button:hover {
+  background-color: #2980b9;
+}
+
+.upload-note-container button:focus {
+  outline: none;
+}
+
+.upload-note-container p {
+  text-align: center;
+  color: #27ae60;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upload-note-container {
+    padding: 15px;
+  }
+
+  .upload-note-container h2 {
+    font-size: 20px;
+  }
+
+  .upload-note-container input[type="text"],
+  .upload-note-container textarea {
+    font-size: 14px;
+  }
+
+  .upload-note-container button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

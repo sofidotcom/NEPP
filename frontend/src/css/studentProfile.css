@@ -1,0 +1,118 @@
+body{
+    padding: 0px;
+    margin: 0px;
+}
+.ethio-matric-container {
+  font-family: Arial, sans-serif;
+  max-width: 300px;
+  margin-left: 0px;
+  padding: 0px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  height: 100vh;
+  
+
+
+}
+
+.header {
+  display: block; /* Ensure the header itself is block */
+  text-align: center; /* Center-align the content */
+  margin-bottom: 20px;
+}
+
+.profile {
+   
+    margin-left: 25%;
+    padding-top: 50px;
+    /* Ensure the header itself is block */
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  width:120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: whitesmoke;
+  
+   /* Add space between elements */
+}
+
+.profile-name {
+  font-size: 18px;
+  margin-bottom: 10px; /* Add space between elements */
+}
+
+.contact-info {
+  display: block; /* Ensure the contact info is block */
+  margin-bottom: 10px; /* Add space between elements */
+}
+
+.contact-info .icon {
+  margin-right: 10px; /* Space between icon and text */
+  color: #555; /* Icon color */
+}
+
+.contact-info span {
+  font-size: 16px;
+  color: #333; /* Text color */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #fff;
+  border-radius: 5px;
+  
+}
+
+.menu-item .icon {
+  margin-right: 10px;
+  color: #555;
+}
+
+.menu-item span {
+  font-size: 16px;
+  color: #333;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #777;
+}
+
+@media (max-width: 480px) {
+  .ethio-matric-container {
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .menu-item span {
+    font-size: 14px;
+  }
+}
+
+
+
+
+/* Profile name section */
+.profile-name {
+    font-size: 1.8rem;
+    color: #105ae2;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+

@@ -1,0 +1,17 @@
+.layout-container {
+  display: flex;
+}
+
+.sidebar {
+  flex: 0 0 300px; /* Fixed width for the sidebar */
+}
+
+.exam-container {
+  flex: 1; /* Takes the remaining space */
+  padding: 20px;
+}
+.userprofile{
+  position: absolute;
+  top: 4%;
+  left: 85%;
+}

@@ -1,0 +1,99 @@
+.app {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.nav{
+   display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+.nav button {
+    margin: 0 10px;
+    width: 120px;
+    border-radius: 25px;
+}
+.login{
+    background-color: orangered;
+}
+.background{
+    background-image: url('../images/pc2.jpg'); /* Replace with your image URL */
+     /* Allows the image to cover the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 30vh;
+    margin-bottom: 60px;
+}
+h2{
+    position: absolute;
+    top:20%;
+    right: 25%;
+    font-size: 25px;
+    font-style: oblique;
+}
+h3{
+    margin-top: 0;
+    color: orangered;
+}
+.main-content {
+    text-align: center;
+}
+
+.search-bar {
+    margin: 20px 0;
+    
+
+}
+.searchbarr{
+    color: white;
+    font-size: 20px;
+}
+.search-bar input {
+    padding: 10px;
+    width: 300px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+   
+    
+    
+}
+p{font-size: 18px;}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #d4d1d1ee;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 20%;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.footer button {
+    margin: 0 10px;
+}
