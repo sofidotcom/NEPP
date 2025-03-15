@@ -13,7 +13,7 @@ app.use(morgan('dev'));
 // Connect to database
 connectdb();
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 const signupStudent=require('./router/signupUserRouter');
 app.use("/api/v1/signup/",signupStudent);

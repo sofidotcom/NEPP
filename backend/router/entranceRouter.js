@@ -1,25 +1,27 @@
-const express = require('express');
-const router = express.Router();
-const entranceController = require('../controller/entranceController');
-const verifyToken = require('../middleware/authMiddleware');
-const upload = require('../middleware/multerConfig'); // ⬅️ Handles file uploads!
+const express = require("express")
+const router = express.Router()
+const entranceController = require("../controller/entranceController")
+const verifyToken = require("../middleware/authMiddleware")
+const upload = require("../middleware/multerConfig")
 
 // POST: create entrance with images support
 router.post(
-  '/bioEntrance',
+  "/bioEntrance",
   verifyToken,
   upload.fields([
-    { name: 'questionImage', maxCount: 1 },
-    { name: 'options[0][image]', maxCount: 1 },
-    { name: 'options[1][image]', maxCount: 1 },
-    { name: 'options[2][image]', maxCount: 1 },
-    { name: 'options[3][image]', maxCount: 1 },
+    { name: "questionImage", maxCount: 1 },
+    { name: "optionImage0", maxCount: 1 },
+    { name: "optionImage1", maxCount: 1 },
+    { name: "optionImage2", maxCount: 1 },
+    { name: "optionImage3", maxCount: 1 },
   ]),
-  entranceController.createEntrance
-);
+  entranceController.createEntrance,
+)
 
 // GET: fetch entrance exams by year
-router.get('/bioEntrance/:year', entranceController.getEntrance);
+router.get("/bioEntrance/:year", entranceController.getEntrance)
 
-module.exports = router;
+module.exports = router
+
+
 
