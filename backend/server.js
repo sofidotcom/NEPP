@@ -13,7 +13,10 @@ app.use(morgan('dev'));
 // Connect to database
 connectdb();
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))// this is for image  from the added exam entrance
+app.use('/uploadedPdf', express.static(path.join(__dirname, 'uploadedPdfs')));// this is for the uploaded pdf folder 
+
+
 
 const signupStudent=require('./router/signupUserRouter');
 app.use("/api/v1/signup/",signupStudent);
@@ -34,6 +37,8 @@ app.use("/api/v1/students/", studentProfileRouter);
 //add and display qiuz  
 const quiz= require('./router/quizeRouter');
 app.use('/api/v1/bioExam',quiz);
+
+
 //add entrance exam and display it
 const entrance= require('./router/entranceRouter');
 app.use('/api/v1',entrance);
@@ -41,6 +46,14 @@ app.use('/api/v1',entrance);
 //add shortnaot and display  it
 const noteRoutes = require('./router/noteRouter');
 app.use('/api/v1/notes', noteRoutes);
+
+//  this is the pdf added api
+const pdfRoutes = require('./router/pdfRouter');
+app.use('/api/v1', pdfRoutes);
+
+
+
+
 //score
 const scoreAdd=require('./router/scoreRouter');
 app.use('/api/v1/score',scoreAdd);

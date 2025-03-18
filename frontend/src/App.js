@@ -28,7 +28,8 @@ import NotesBySubject from './pages/teacherspage/noteDisplayPage';
 
 import SidebarR from './pages/studentspage/studentSideBar';
 import EntranceLayout from './pages/layout/entranceLayout';
-
+import UploadPDF from './pages/teacherspage/pdfUploadPage';
+import StudentPDFList from './pages/studentspage/dawnloadPage';
 
 const App = () => {
   return (
@@ -46,8 +47,10 @@ const App = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="/sign" element={<TeacherSignup />} />
 
+        
+      
 
-       
+          
 
 
 
@@ -60,12 +63,14 @@ const App = () => {
           <Route path="/bioEntrance/:year" element={<EntranceLayout />} />
           <Route path="/upload" element={<UploadNoteForm />} />
           <Route path="/notes/:subject" element={<NotesBySubject/>} />
+            <Route path="/pdf" element={<UploadPDF/>} />
+             <Route path="/download" element={<StudentPDFList/>} />
+
+            
           
           <Route path="/student/:id" element={<StudentPage />} />
           <Route path="/admin" element={<Admin />} />
         <Route path="/teacher/:id" element={<Ap/>} />
-
-         
         </Route>
       </Routes>
     </BrowserRouter>
