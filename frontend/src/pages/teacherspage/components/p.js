@@ -5,6 +5,7 @@ import './p.css';
 import CourseForm from './CourseForm';
 import ShortNote from './ShortNote';
 import TipForm from './TipForm';
+import UploadPDF from '../pdfUploadPage';
 import ExamForm from './ExamForm';
 import UploadNoteForm from '../notePage';
 
@@ -45,6 +46,7 @@ function Ap() {
           <nav className="nav-links">
         
             <a onClick={() => handleFormChange('note')} className={activeForm === 'note' ? 'active' : ''}>Add Note</a>
+            <a onClick={() => handleFormChange('pdf')} className={activeForm === 'pdf' ? 'active' : ''}>Add course</a>
             <a onClick={() => handleFormChange('tip')} className={activeForm === 'tip' ? 'active' : ''}>Tips</a>
             <a onClick={() => handleFormChange('exam')} className={activeForm === 'exam' ? 'active' : ''}>Add Exam</a>
             <a onClick={() => handleFormChange('quiz')} className={activeForm === 'quiz' ? 'active' : ''}>Add Quiz</a>
@@ -61,6 +63,7 @@ function Ap() {
         <main className="dashboard-content">
           
           {activeForm === 'note' && <UploadNoteForm />}
+          {activeForm === 'pdf' && <UploadPDF/>}
           {activeForm === 'tip' && < TipForm />}
           {activeForm === 'exam' && <BiologyAddEntrance/>}
           {activeForm === 'quiz' && <BiologyExam/>}

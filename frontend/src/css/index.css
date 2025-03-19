@@ -32,13 +32,13 @@
     height: 30vh;
     margin-bottom: 60px;
 }
-h2{
+/* h2{
     position: absolute;
     top:20%;
     right: 25%;
     font-size: 25px;
     font-style: oblique;
-}
+} */
 h3{
     margin-top: 0;
     color: orangered;

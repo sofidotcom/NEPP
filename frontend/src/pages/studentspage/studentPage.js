@@ -5,6 +5,8 @@ import { useParams, Outlet } from 'react-router-dom';
 import SidebarR from './studentSideBar';
 import '../../css/entranceLayout.css';
 
+import NotificationBell from './notificationDisplaypage';
+
 
  // Import CSS for layout
 
@@ -55,6 +57,8 @@ const StudentPage = () => {
       <h3>Profile</h3>
         <p>Name: {student.name}</p>
         <p>Phone: {student.phoneNumber}</p>
+        < NotificationBell />
+
         {/* <button className="logout-button" onClick={handleLogout}>logout</button> */}
         
       </div>

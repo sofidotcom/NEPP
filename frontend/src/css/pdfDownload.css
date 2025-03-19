@@ -1,0 +1,101 @@
+.student-pdf-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.status-message {
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #f0f7ff;
+  border-radius: 4px;
+  border-left: 4px solid #0066cc;
+}
+
+.pdf-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pdf-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+.pdf-item:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-item.downloaded {
+  border-left: 4px solid #4CAF50;
+  background-color: #f9fff9;
+}
+
+.pdf-info {
+  flex: 1;
+}
+
+.pdf-info h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.pdf-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.download-status {
+  color: #4CAF50;
+  font-size: 14px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.download-icon {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.download-btn {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #0055aa;
+}
+
+.download-btn.redownload {
+  background-color: #4CAF50;
+}
+
+.download-btn.redownload:hover {
+  background-color: #3d8b40;
+}
+
+@media (max-width: 600px) {
+  .pdf-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .download-btn {
+    margin-top: 15px;
+    align-self: flex-end;
+  }
+}

@@ -52,6 +52,11 @@ const pdfRoutes = require('./router/pdfRouter');
 app.use('/api/v1', pdfRoutes);
 
 
+// this is the notificathion api when new pdf uploads
+const notification=require('./router/notificationRoute');
+app.use('/api/v1/notifications',notification);
+
+
 
 
 //score

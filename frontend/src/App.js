@@ -31,6 +31,8 @@ import EntranceLayout from './pages/layout/entranceLayout';
 import UploadPDF from './pages/teacherspage/pdfUploadPage';
 import StudentPDFList from './pages/studentspage/dawnloadPage';
 
+import NotificationBell from './pages/studentspage/notificationDisplaypage';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -46,13 +48,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/sign" element={<TeacherSignup />} />
-
         
-      
-
-          
-
-
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
@@ -65,8 +61,9 @@ const App = () => {
           <Route path="/notes/:subject" element={<NotesBySubject/>} />
             <Route path="/pdf" element={<UploadPDF/>} />
              <Route path="/download" element={<StudentPDFList/>} />
+            <Route path="/notification" element={< NotificationBell/>} />  
 
-            
+           
           
           <Route path="/student/:id" element={<StudentPage />} />
           <Route path="/admin" element={<Admin />} />

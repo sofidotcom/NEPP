@@ -54,7 +54,7 @@ const SidebarR = ({ student }) => {
                     <Link to="/notes/biology" className="navv">Short Notes</Link>
                   </div>
                   <div className="folder-item">
-                    <Link to="/courses/biology/resources" className="navv">Resources</Link>
+                    <Link to="/download" className="navv">Resources</Link>
                   </div>
                   <div className="folder-item">
                     <Link to="/courses/biology/videos" className="navv">Videos</Link>
@@ -75,7 +75,7 @@ const SidebarR = ({ student }) => {
                     <Link to="/notes/chemistry" className="navv">Short Notes</Link>
                   </div>
                   <div className="folder-item">
-                    <Link to="/courses/chemistry/resources" className="navv">Resources</Link>
+                    <Link to="/download" className="navv">Resources</Link>
                   </div>
                   <div className="folder-item">
                     <Link to="/courses/chemistry/videos" className="navv">Videos</Link>
@@ -96,7 +96,7 @@ const SidebarR = ({ student }) => {
                     <Link to="/notes/physics" className="navv">Short Notes</Link>
                   </div>
                   <div className="folder-item">
-                    <Link to="/courses/physics/resources" className="navv">Resources</Link>
+                    <Link to="/download" className="navv">Resources</Link>
                   </div>
                   <div className="folder-item">
                     <Link to="/courses/physics/videos" className="navv">Videos</Link>
@@ -125,10 +125,10 @@ const SidebarR = ({ student }) => {
               {openBiologyExams && (
                 <div className="sub-folder">
                   <div className="folder-item">
-                    <nav> <Link to="/bioEntrance/2012" className="navv">2012 Exam</Link></nav>
+                    <nav> <Link to="/bioEntrance/2014" className="navv">2014 Exam</Link></nav>
                   </div>
                   <div className="folder-item">
-                    <nav> <Link to="/bioEntrance/2013" className="navv">2015 Exam</Link></nav>
+                    <nav> <Link to="/bioEntrance/2015" className="navv">2015 Exam</Link></nav>
                   </div>
                   <div className="folder-item">
                     <nav> <Link to="/bioEntrance/2016" className="navv">2016 Exam</Link></nav>

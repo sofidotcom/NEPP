@@ -64,7 +64,7 @@ const UploadPDF = () => {
 
   return (
     <div className="upload-container">
-      <h2>Upload PDF</h2>
+      <h4>Upload PDF</h4>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title:</label>
