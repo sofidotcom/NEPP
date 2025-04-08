@@ -182,8 +182,13 @@ const SidebarR = ({ student }) => {
       </div>
       <div className="sidebar-section">
         <div className="section-header">
+         <Link to ='/chat-rooms' className='logoutt'>Goto Chat</Link> 
+        </div>
+        <div className="sidebar-section">
+        <div className="section-header">
          <Link to ='/logout' className='logoutt'>Logout</Link> 
         </div>
+      </div>
       </div>
     </div>
   );

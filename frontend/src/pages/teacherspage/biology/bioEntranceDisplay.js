@@ -145,6 +145,7 @@ const BioEntranceDisplay = () => {
                   <h3 className="question-label">Question {index + 1}:</h3>
                   {/* Render Question Content inline with the label */}
                   {renderContent(question.question, `q-${question._id}`)}
+                  
                 </div>
 
                 <div className="options-container">

@@ -33,6 +33,9 @@ import StudentPDFList from './pages/studentspage/dawnloadPage';
 
 import NotificationBell from './pages/studentspage/notificationDisplaypage';
 
+import ChatRoom from './pages/components/chatRoom';
+import ChatRoomsList from './pages/components/chatRoomsList';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -68,6 +71,12 @@ const App = () => {
           <Route path="/student/:id" element={<StudentPage />} />
           <Route path="/admin" element={<Admin />} />
         <Route path="/teacher/:id" element={<Ap/>} />
+
+
+        <Route path="/chat-rooms" element={<ChatRoomsList />} />
+        <Route path="/chat-room/:roomId" element={<ChatRoom />} />
+
+
         </Route>
       </Routes>
     </BrowserRouter>

@@ -14,6 +14,8 @@ import BiologyExam from '../biology/addBiologyExam';
 // import QuizForm from './components/QuizForm';
 import ProgressViewer from './ProgressViewer';
 import { FaUserCircle, FaBars, FaSearch, FaCalendarAlt, FaLightbulb } from 'react-icons/fa';
+import ChatRoom from '../../components/chatRoom';
+import ChatRoomsList from '../../components/chatRoomsList';
 
 function Ap() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -48,6 +50,7 @@ function Ap() {
             <a onClick={() => handleFormChange('note')} className={activeForm === 'note' ? 'active' : ''}>Add Note</a>
             <a onClick={() => handleFormChange('pdf')} className={activeForm === 'pdf' ? 'active' : ''}>Add course</a>
             <a onClick={() => handleFormChange('tip')} className={activeForm === 'tip' ? 'active' : ''}>Tips</a>
+            <a onClick={() => handleFormChange('chat')} className={activeForm === 'chat' ? 'active' : ''}>chat</a>
             <a onClick={() => handleFormChange('exam')} className={activeForm === 'exam' ? 'active' : ''}>Add Exam</a>
             <a onClick={() => handleFormChange('quiz')} className={activeForm === 'quiz' ? 'active' : ''}>Add Quiz</a>
             <a onClick={() => handleFormChange('progress')} className={activeForm === 'progress' ? 'active' : ''}>View Progress</a>
@@ -65,6 +68,7 @@ function Ap() {
           {activeForm === 'note' && <UploadNoteForm />}
           {activeForm === 'pdf' && <UploadPDF/>}
           {activeForm === 'tip' && < TipForm />}
+           {activeForm === 'chat' && < ChatRoomsList/>}
           {activeForm === 'exam' && <BiologyAddEntrance/>}
           {activeForm === 'quiz' && <BiologyExam/>}
           {activeForm === 'progress' && <ProgressViewer />}
