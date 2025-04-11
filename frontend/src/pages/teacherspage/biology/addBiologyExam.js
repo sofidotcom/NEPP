@@ -6,6 +6,8 @@ import '../../../css/addexam.css';
 const BiologyExam = () => {
     const navigator = useNavigate();
     const [formData, setFormData] = useState({
+        subject: 'Biology', // Default subject remains Biology
+        level: 1,
         question: '',
         options: ['', '', '', ''],
         correctAnswer: '',
@@ -27,9 +29,10 @@ const BiologyExam = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/v1/bioExam', formData);
+            const response = await axios.post('/api/v1/quiz', formData);
             setMessage(response.data.message);
             setFormData({
+                subject: 'Biology', // Reset to default subject
                 question: '',
                 options: ['', '', '', ''],
                 correctAnswer: '',
@@ -46,6 +49,33 @@ const BiologyExam = () => {
             <h1>Add a New Question</h1>
             {message && <p className="message">{message}</p>}
             <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Subject:</label>
+                    <select
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="Biology">Biology</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Physics">Physics</option>
+                        {/* Add more subjects as needed */}
+                    </select>
+                </div>
+                <div>
+                    <label>
+                            Level (1-5):
+                            <input 
+                                type="number" 
+                                name="level" 
+                                min="1" 
+                                max="5" 
+                                value={formData.level}
+                                onChange={handleChange}
+                            />
+                        </label>
+                </div>
                 <div>
                     <label>Question:</label>
                     <textarea

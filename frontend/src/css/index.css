@@ -1,99 +1,210 @@
+/* index.css */
 .app {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f7fa;
+  padding: 0;
+  min-height: 100vh;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.nav{
-   display: flex;
-    justify-content: space-between;
-    align-items: center; 
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a2a44;
+  margin: 0;
 }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .nav button {
-    margin: 0 10px;
-    width: 120px;
-    border-radius: 25px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.login{
-    background-color: orangered;
+
+.nav button:hover {
+  background-color: #2980b9;
 }
-.background{
-    background-image: url('../images/pc2.jpg'); /* Replace with your image URL */
-     /* Allows the image to cover the entire background */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    height: 30vh;
-    margin-bottom: 60px;
+
+.login {
+  background-color: #e74c3c;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
-/* h2{
-    position: absolute;
-    top:20%;
-    right: 25%;
-    font-size: 25px;
-    font-style: oblique;
-} */
-h3{
-    margin-top: 0;
-    color: orangered;
+
+.login:hover {
+  background-color: #c0392b;
 }
+
+.background {
+  background-image: url("../images/pc2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.background h2 {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.background h3 {
+  color: #e74c3c;
+  display: inline;
+  font-weight: 700;
+}
+
 .main-content {
-    text-align: center;
+  text-align: center;
+  padding: 0 20px;
 }
 
 .search-bar {
-    margin: 20px 0;
-    
+  margin: 30px 0;
+}
 
+.searchbarr {
+  color: #333;
+  font-size: 16px;
+  padding: 12px 20px;
+  width: 350px;
+  border-radius: 25px;
+  border: 1px solid #e0e0e0;
+  outline: none;
+  transition: all 0.3s ease;
 }
-.searchbarr{
-    color: white;
-    font-size: 20px;
+
+.searchbarr:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
 }
-.search-bar input {
-    padding: 10px;
-    width: 300px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-   
-    
-    
-}
-p{font-size: 18px;}
 
 .card-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 0 20px;
 }
 
 .card {
-    background: #d4d1d1ee;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 20px;
-    text-align: center;
-    width: 20%;
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 22%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a2a44;
+  margin: 0 0 15px;
 }
 
 .card img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 30px 0;
+  background-color: #1a2a44;
+  margin-top: 50px;
 }
 
 .footer button {
-    margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.footer button:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 45%;
+  }
+
+  .background h2 {
+    font-size: 28px;
+  }
+
+  .searchbarr {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 100%;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav button,
+  .login {
+    width: 100%;
+    text-align: center;
+  }
 }

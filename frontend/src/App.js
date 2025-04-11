@@ -58,10 +58,11 @@ const App = () => {
           <Route path="/sidebar" element={<SidebarR />} />
           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
           <Route path="/BiologyExam" element={<BiologyExam />} />
-          <Route path="/Display" element={<BioExamDisplay />} />
+          <Route path="/quiz" element={<BioExamDisplay />} />
           <Route path="/bioEntrance/:year" element={<EntranceLayout />} />
           <Route path="/upload" element={<UploadNoteForm />} />
-          <Route path="/notes/:subject" element={<NotesBySubject/>} />
+          {/* <Route path="/notes/:subject" element={<NotesBySubject/>} /> */}
+          <Route path="/notes/:subject/:grade" element={<NotesBySubject />} />
             <Route path="/pdf" element={<UploadPDF/>} />
              <Route path="/download" element={<StudentPDFList/>} />
             <Route path="/notification" element={< NotificationBell/>} />  
