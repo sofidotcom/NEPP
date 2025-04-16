@@ -20,31 +20,77 @@ body {
   padding: 20px;
 }
 
-/* Timer Controls */
-.timer-controls {
+/* Controls Container */
+.controls-container {
   position: sticky;
   top: 0;
   background: #ffffff;
   z-index: 10;
   padding: 15px 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.controls-container h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a2a44;
+  margin: 0 0 10px 0;
+}
+
+/* Grade and Timer Flex */
+.grade-timer-flex {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Grade Filter */
+.grade-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.grade-filter label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1a2a44;
+}
+
+.grade-filter select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.grade-filter select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Timer Controls */
+.timer-controls {
+  display: flex;
+  align-items: center;
   gap: 15px;
-  border-radius: 8px;
 }
 
 .timer-controls h3 {
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a2a44;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .timer-button {
-  padding: 10px 25px;
-  font-size: 16px;
+  padding: 8px 20px;
+  font-size: 14px;
   cursor: pointer;
   background-color: #3498db;
   color: white;
@@ -59,7 +105,7 @@ body {
 
 /* Exam Content */
 .exam-content {
-  margin-top: 20px;
+  margin-top: 100px; /* Ensure content starts below sticky controls */
   transition: filter 0.3s ease;
 }
 
@@ -85,6 +131,8 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   margin: 20px 0;
   padding: 25px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Question Header */
@@ -92,8 +140,11 @@ body {
   display: flex;
   align-items: flex-start;
   margin-bottom: 15px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
+/* Question Label */
 .question-label {
   font-size: 1.2rem;
   font-weight: 600;
@@ -102,12 +153,55 @@ body {
   white-space: nowrap;
 }
 
+/* Content Wrapper */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Text Content */
+.content-wrapper p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Image Wrapper */
+.image-wrapper {
+  margin: 10px 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.option-image {
+  max-width: 100%;
+  max-height: 200px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  object-fit: contain;
+}
+
+/* LaTeX Wrapper */
+.latex-wrapper {
+  margin: 5px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 5px;
+}
+
 /* Options Container */
 .options-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-top: 15px;
+  width: 100%;
 }
 
 /* Option Wrapper */
@@ -115,6 +209,8 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 /* Option Button */
@@ -186,39 +282,31 @@ body {
   margin: 0;
 }
 
-/* Content Wrapper */
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Image Wrapper */
-.image-wrapper {
-  margin: 10px 0;
-  max-width: 800px;
-}
-
-.option-image {
-  max-width: 100%;
-  max-height: 200px;
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  object-fit: contain;
-}
-
-/* LaTeX Wrapper */
-.latex-wrapper {
-  margin: 5px 0;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .exam-container {
     padding: 15px;
+  }
+
+  .question-container {
+    padding: 15px;
+  }
+
+  .question-header {
+    flex-direction: column;
+  }
+
+  .question-label {
+    margin-bottom: 10px;
+  }
+
+  .option-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-wrapper {
+    max-width: 100%;
   }
 
   .timer-button {
@@ -229,23 +317,38 @@ body {
     width: 100%;
   }
 
-  .image-wrapper {
-    max-width: 100%;
+  .grade-timer-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .exam-content {
+    margin-top: 150px; /* Adjust for taller stacked controls */
   }
 }
 
 @media (max-width: 480px) {
-  .question-header {
-    flex-direction: column;
-  }
-
-  .question-label {
-    margin-bottom: 10px;
-  }
-
   .option-button {
     width: 35px;
     height: 35px;
+  }
+
+  .content-wrapper p {
+    font-size: 0.9rem;
+  }
+
+  .grade-filter select {
+    width: 100%;
+  }
+
+  .timer-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .exam-content {
+    margin-top: 180px; /* Further adjust for mobile */
   }
 }
 

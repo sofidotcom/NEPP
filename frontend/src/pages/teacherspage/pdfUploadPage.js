@@ -1,13 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
+import { jwtDecode } from 'jwt-decode'
 
 const UploadPDF = () => {
   const [title, setTitle] = useState("")
   const [subject, setSubject] = useState("")
- 
   const [file, setFile] = useState(null)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setSubject(decodedToken.subject || '');
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  }, []);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -26,11 +38,9 @@ const UploadPDF = () => {
     const formData = new FormData()
     formData.append("title", title)
     formData.append("subject", subject)
-   
     formData.append("file", file)
 
     try {
-      // Get the token from localStorage or your auth state
       const token = localStorage.getItem("token")
 
       if (!token) {
@@ -42,17 +52,14 @@ const UploadPDF = () => {
       const response = await axios.post("/api/v1/pdfs", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Add the token to the request
+          Authorization: `Bearer ${token}`,
         },
       })
 
       setMessage(response.data.message)
-      // Clear form after successful upload
+      // Clear form after successful upload, keeping subject
       setTitle("")
-      setSubject("")
-      
       setFile(null)
-      // Reset file input
       document.getElementById("file-input").value = ""
     } catch (error) {
       console.error("Upload error:", error)
@@ -68,16 +75,33 @@ const UploadPDF = () => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Title:</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input 
+            type="text" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            required 
+          />
         </div>
         <div className="form-group">
           <label>Subject:</label>
-          <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+          <input 
+            type="text" 
+            value={subject} 
+            onChange={(e) => setSubject(e.target.value)} 
+            disabled 
+            required 
+          />
         </div>
       
         <div className="form-group">
           <label>PDF File:</label>
-          <input id="file-input" type="file" onChange={handleFileChange} accept="application/pdf" required />
+          <input 
+            id="file-input" 
+            type="file" 
+            onChange={handleFileChange} 
+            accept="application/pdf" 
+            required 
+          />
         </div>
         <button type="submit" disabled={loading}>
           {loading ? "Uploading..." : "Upload"}

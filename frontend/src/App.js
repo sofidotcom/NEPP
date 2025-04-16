@@ -36,6 +36,11 @@ import NotificationBell from './pages/studentspage/notificationDisplaypage';
 import ChatRoom from './pages/components/chatRoom';
 import ChatRoomsList from './pages/components/chatRoomsList';
 
+import Leaderboard from './pages/leaderBoard';
+
+//leader board  pages   
+import EntranceLeaderboard from './pages/components/entranceLeaderBoard';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -51,6 +56,19 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/sign" element={<TeacherSignup />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+         <Route path="/admin" element={<Admin />} />
+        
+
+        
+       {/* leaderboard */}
+
+ <Route path="/el" element={<EntranceLeaderboard />} />
+   
+
+
+
+        {/* leaderboard */}
         
 
         {/* Protected Routes */}
@@ -59,9 +77,9 @@ const App = () => {
           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
           <Route path="/BiologyExam" element={<BiologyExam />} />
           <Route path="/quiz" element={<BioExamDisplay />} />
-          <Route path="/bioEntrance/:year" element={<EntranceLayout />} />
+         <Route path="/entrance/:subject/:year" element={<EntranceLayout />} />
           <Route path="/upload" element={<UploadNoteForm />} />
-          {/* <Route path="/notes/:subject" element={<NotesBySubject/>} /> */}
+          
           <Route path="/notes/:subject/:grade" element={<NotesBySubject />} />
             <Route path="/pdf" element={<UploadPDF/>} />
              <Route path="/download" element={<StudentPDFList/>} />
@@ -70,7 +88,7 @@ const App = () => {
            
           
           <Route path="/student/:id" element={<StudentPage />} />
-          <Route path="/admin" element={<Admin />} />
+         
         <Route path="/teacher/:id" element={<Ap/>} />
 
 

@@ -72,6 +72,10 @@ app.use("/api/v1/quizscore", quizScoreRoutes)
 const progressRoutes = require('./router/quizProgressRouter');
 app.use('/api/v1/progress', progressRoutes);
 
+//leader board 
+const entranceleader=require('./router/leaderboard/entranceleaderRouter');
+app.use('/api/v1/leaderboard',entranceleader)
+
 // connection
 const port = process.env.PORT || 5000
 server.listen(port, () => {

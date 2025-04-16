@@ -23,14 +23,16 @@ const EntranceSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-
-    createdBy: {        
+  createdBy: {        
     type: String,        
     required: true
   },
-
-
-},{ timestamps: true });
+  grade: { // Ensure grade field exists
+    type: String,
+    enum: ['9', '10', '11', '12'],
+    required: true
+  },
+}, { timestamps: true });
 
 const EntranceModel = mongoose.model('biologyentrances', EntranceSchema);
 module.exports = EntranceModel;

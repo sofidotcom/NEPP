@@ -28,131 +28,131 @@ const SidebarR = ({ student }) => {
   const togglePhysicsGrades = () => setOpenPhysicsGrades(!openPhysicsGrades);
 
   return (
-    <div className="sidebar">
-      <div className="profile-section">
+    <div className="sidebar-r">
+      <div className="sidebar-r-profile-section">
         <h3>EthioAce</h3>
         <p>For your Future</p>
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header" onClick={toggleCourses}>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header" onClick={toggleCourses}>
           <span>Courses</span>
           <span>{openCourses ? '▼' : '▶'}</span>
         </div>
         {openCourses && (
-          <div className="section-content">
-            <div className="folder-item">
-              <div className="sub-section-header" onClick={toggleBiology}>
+          <div className="sidebar-r-section-content">
+            <div className="sidebar-r-folder-item">
+              <div className="sidebar-r-sub-section-header" onClick={toggleBiology}>
                 <span>Biology</span>
                 <span>{openBiology ? '▼' : '▶'}</span>
               </div>
               {openBiology && (
-                <div className="sub-folder">
-                  <div className="folder-item">
-                    <div className="sub-section-header" onClick={toggleBioGrades}>
+                <div className="sidebar-r-sub-folder">
+                  <div className="sidebar-r-folder-item">
+                    <div className="sidebar-r-sub-section-header" onClick={toggleBioGrades}>
                       <span>Short Notes</span>
                       <span>{openBioGrades ? '▼' : '▶'}</span>
                     </div>
                     {openBioGrades && (
-                      <div className="sub-folder">
-                        <div className="folder-item">
-                          <Link to={`/notes/biology/grade9`} className="navv">Grade 9</Link>
+                      <div className="sidebar-r-sub-folder">
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/biology/grade9`} className="sidebar-r-navv">Grade 9</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to="/notes/biology/grade10" className="navv">Grade 10</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to="/notes/biology/grade10" className="sidebar-r-navv">Grade 10</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to={`/notes/biology/grade11`} className="navv">Grade 11</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/biology/grade11`} className="sidebar-r-navv">Grade 11</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to={`/notes/biology/grade12`} className="navv">Grade 12</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/biology/grade12`} className="sidebar-r-navv">Grade 12</Link>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="folder-item">
-                    <Link to="/download" className="navv">Resources</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/download" className="sidebar-r-navv">Resources</Link>
                   </div>
-                  <div className="folder-item">
-                    <Link to="/courses/biology/videos" className="navv">Videos</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/courses/biology/videos" className="sidebar-r-navv">Videos</Link>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="folder-item">
-              <div className="sub-section-header" onClick={toggleChemistry}>
+            <div className="sidebar-r-folder-item">
+              <div className="sidebar-r-sub-section-header" onClick={toggleChemistry}>
                 <span>Chemistry</span>
                 <span>{openChemistry ? '▼' : '▶'}</span>
               </div>
               {openChemistry && (
-                <div className="sub-folder">
-                  <div className="folder-item">
-                    <div className="sub-section-header" onClick={toggleChemGrades}>
+                <div className="sidebar-r-sub-folder">
+                  <div className="sidebar-r-folder-item">
+                    <div className="sidebar-r-sub-section-header" onClick={toggleChemGrades}>
                       <span>Short Notes</span>
                       <span>{openChemGrades ? '▼' : '▶'}</span>
                     </div>
                     {openChemGrades && (
-                      <div className="sub-folder">
-                        <div className="folder-item">
-                          <Link to={`/notes/chemistry/grade9`} className="navv">Grade 9</Link>
+                      <div className="sidebar-r-sub-folder">
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/chemistry/grade9`} className="sidebar-r-navv">Grade 9</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to={`/notes/chemistry/grade10`} className="navv">Grade 10</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/chemistry/grade10`} className="sidebar-r-navv">Grade 10</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to={`/notes/chemistry/grade11`} className="navv">Grade 11</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/chemistry/grade11`} className="sidebar-r-navv">Grade 11</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to={`/notes/chemistry/grade12`} className="navv">Grade 12</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to={`/notes/chemistry/grade12`} className="sidebar-r-navv">Grade 12</Link>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="folder-item">
-                    <Link to="/download" className="navv">Resources</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/download" className="sidebar-r-navv">Resources</Link>
                   </div>
-                  <div className="folder-item">
-                    <Link to="/courses/chemistry/videos" className="navv">Videos</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/courses/chemistry/videos" className="sidebar-r-navv">Videos</Link>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="folder-item">
-              <div className="sub-section-header" onClick={togglePhysics}>
+            <div className="sidebar-r-folder-item">
+              <div className="sidebar-r-sub-section-header" onClick={togglePhysics}>
                 <span>Physics</span>
                 <span>{openPhysics ? '▼' : '▶'}</span>
               </div>
               {openPhysics && (
-                <div className="sub-folder">
-                  <div className="folder-item">
-                    <div className="sub-section-header" onClick={togglePhysicsGrades}>
+                <div className="sidebar-r-sub-folder">
+                  <div className="sidebar-r-folder-item">
+                    <div className="sidebar-r-sub-section-header" onClick={togglePhysicsGrades}>
                       <span>Short Notes</span>
                       <span>{openPhysicsGrades ? '▼' : '▶'}</span>
                     </div>
                     {openPhysicsGrades && (
-                      <div className="sub-folder">
-                        <div className="folder-item">
-                          <Link to="/notes/physics/grade9" className="navv">Grade 9</Link>
+                      <div className="sidebar-r-sub-folder">
+                        <div className="sidebar-r-folder-item">
+                          <Link to="/notes/physics/grade9" className="sidebar-r-navv">Grade 9</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to="/notes/physics/grade10" className="navv">Grade 10</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to="/notes/physics/grade10" className="sidebar-r-navv">Grade 10</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to="/notes/physics/grade11" className="navv">Grade 11</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to="/notes/physics/grade11" className="sidebar-r-navv">Grade 11</Link>
                         </div>
-                        <div className="folder-item">
-                          <Link to="/notes/physics/grade12" className="navv">Grade 12</Link>
+                        <div className="sidebar-r-folder-item">
+                          <Link to="/notes/physics/grade12" className="sidebar-r-navv">Grade 12</Link>
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="folder-item">
-                    <Link to="/download" className="navv">Resources</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/download" className="sidebar-r-navv">Resources</Link>
                   </div>
-                  <div className="folder-item">
-                    <Link to="/courses/physics/videos" className="navv">Videos</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/courses/physics/videos" className="sidebar-r-navv">Videos</Link>
                   </div>
                 </div>
               )}
@@ -161,42 +161,49 @@ const SidebarR = ({ student }) => {
         )}
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header" onClick={toggleExams}>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header" onClick={toggleExams}>
           <span>Exams</span>
           <span>{openExams ? '▼' : '▶'}</span>
         </div>
         {openExams && (
-          <div className="section-content">
-            <div className="folder-item">
-              <div className="sub-section-header" onClick={toggleBiologyExams}>
+          <div className="sidebar-r-section-content">
+            <div className="sidebar-r-folder-item">
+              <div className="sidebar-r-sub-section-header" onClick={toggleBiologyExams}>
                 <span>Biology</span>
                 <span>{openBiologyExams ? '▼' : '▶'}</span>
               </div>
               {openBiologyExams && (
-                <div className="sub-folder">
-                  <div className="folder-item">
-                    <Link to="/bioEntrance/2014" className="navv">2014 Exam</Link>
+                <div className="sidebar-r-sub-folder">
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Biology/2014" className="sidebar-r-navv">2014 Exam</Link>
                   </div>
-                  <div className="folder-item">
-                    <Link to="/bioEntrance/2015" className="navv">2015 Exam</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Biology/2015" className="sidebar-r-navv">2015 Exam</Link>
                   </div>
-                  <div className="folder-item">
-                    <Link to="/bioEntrance/2016" className="navv">2016 Exam</Link>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Biology/2016" className="sidebar-r-navv">2016 Exam</Link>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="folder-item">
-              <div className="sub-section-header" onClick={toggleChemistryExams}>
+            <div className="sidebar-r-folder-item">
+              <div className="sidebar-r-sub-section-header" onClick={toggleChemistryExams}>
                 <span>Chemistry</span>
                 <span>{openChemistryExams ? '▼' : '▶'}</span>
               </div>
               {openChemistryExams && (
-                <div className="sub-folder">
-                  <div className="folder-item">2012</div>
-                  <div className="folder-item">2013</div>
+                <div className="sidebar-r-sub-folder">
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Chemistry/2014" className="sidebar-r-navv">2014 Exam</Link>
+                  </div>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Chemistry/2015" className="sidebar-r-navv">2015 Exam</Link>
+                  </div>
+                  <div className="sidebar-r-folder-item">
+                    <Link to="/entrance/Chemistry/2016" className="sidebar-r-navv">2016 Exam</Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -204,65 +211,65 @@ const SidebarR = ({ student }) => {
         )}
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header" onClick={toggleQuizzes}>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header" onClick={toggleQuizzes}>
           <span>Quizzes</span>
           <span>{openQuizzes ? '▼' : '▶'}</span>
         </div>
         {openQuizzes && (
-          <div className="section-content">
-                          <Link 
-                to={{
-                  pathname: "/quiz",
-                  search: "?subject=Biology&groupByLevel=true"
-                }}
-                className="folder-item"
-              >
-                Biology 
-              </Link>
-                <Link 
-                to={{
-                  pathname: "/quiz",
-                  search: "?subject=Chemistry&groupByLevel=true"
-                }}
-                className="folder-item"
-              >
-                Chemistry 
-              </Link>
-                        <Link 
-                to={{
-                  pathname: "/quiz",
-                  search: "?subject=Physics&groupByLevel=true"
-                }}
-                className="folder-item"
-              >
-                Physics
-              </Link>
+          <div className="sidebar-r-section-content">
+            <Link 
+              to={{
+                pathname: "/quiz",
+                search: "?subject=Biology&groupByLevel=true"
+              }}
+              className="sidebar-r-folder-item"
+            >
+              Biology 
+            </Link>
+            <Link 
+              to={{
+                pathname: "/quiz",
+                search: "?subject=Chemistry&groupByLevel=true"
+              }}
+              className="sidebar-r-folder-item"
+            >
+              Chemistry 
+            </Link>
+            <Link 
+              to={{
+                pathname: "/quiz",
+                search: "?subject=Physics&groupByLevel=true"
+              }}
+              className="sidebar-r-folder-item"
+            >
+              Physics
+            </Link>
           </div>
         )}
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header">
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header">
           <span>Success Story</span>
         </div>
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header">
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header">
           <span>Downloads</span>
         </div>
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header">
-          <Link to="/chat-rooms" className="logoutt">Goto Chat</Link>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header">
+          <Link to="/chat-rooms" className="sidebar-r-logoutt">Goto Chat</Link>
         </div>
       </div>
 
-      <div className="sidebar-section">
-        <div className="section-header">
-          <Link to="/logout" className="logoutt">Logout</Link>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header">
+          <Link to="/logout" className="sidebar-r-logoutt">Logout</Link>
         </div>
       </div>
     </div>

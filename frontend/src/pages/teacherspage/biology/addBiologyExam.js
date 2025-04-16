@@ -1,12 +1,13 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import '../../../css/addexam.css';
 
 const BiologyExam = () => {
     const navigator = useNavigate();
     const [formData, setFormData] = useState({
-        subject: 'Biology', // Default subject remains Biology
+        subject: '',
         level: 1,
         question: '',
         options: ['', '', '', ''],
@@ -14,6 +15,21 @@ const BiologyExam = () => {
         explanation: '',
     });
     const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                setFormData(prev => ({
+                    ...prev,
+                    subject: decodedToken.subject || ''
+                }));
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,13 +47,13 @@ const BiologyExam = () => {
         try {
             const response = await axios.post('/api/v1/quiz', formData);
             setMessage(response.data.message);
-            setFormData({
-                subject: 'Biology', // Reset to default subject
+            setFormData(prev => ({
+                ...prev,
                 question: '',
                 options: ['', '', '', ''],
                 correctAnswer: '',
                 explanation: '',
-            });
+            }));
             navigator('/ap');
         } catch (error) {
             setMessage('Failed to add question. Please try again.');
@@ -51,30 +67,27 @@ const BiologyExam = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Subject:</label>
-                    <select
+                    <input
+                        type="text"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
+                        disabled
                         required
-                    >
-                        <option value="Biology">Biology</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Physics">Physics</option>
-                        {/* Add more subjects as needed */}
-                    </select>
+                    />
                 </div>
                 <div>
                     <label>
-                            Level (1-5):
-                            <input 
-                                type="number" 
-                                name="level" 
-                                min="1" 
-                                max="5" 
-                                value={formData.level}
-                                onChange={handleChange}
-                            />
-                        </label>
+                        Level (1-5):
+                        <input 
+                            type="number" 
+                            name="level" 
+                            min="1" 
+                            max="5" 
+                            value={formData.level}
+                            onChange={handleChange}
+                        />
+                    </label>
                 </div>
                 <div>
                     <label>Question:</label>

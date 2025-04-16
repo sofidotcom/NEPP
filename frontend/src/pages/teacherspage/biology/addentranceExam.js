@@ -1,11 +1,11 @@
-import { jwtDecode } from "jwt-decode"
-import axios from "axios"
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import "../../../css/addexam.css"
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../../css/addexam.css";
 
 const BiologyAddEntrance = () => {
-  const navigator = useNavigate()
+  const navigator = useNavigate();
 
   const [formData, setFormData] = useState({
     questionText: "",
@@ -19,65 +19,66 @@ const BiologyAddEntrance = () => {
     correctAnswer: "",
     year: "",
     subject: "",
-  })
+    grade: "",
+  });
 
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     if (token) {
-      const decodedToken = jwtDecode(token)
+      const decodedToken = jwtDecode(token);
       setFormData((prev) => ({
         ...prev,
         subject: decodedToken.subject || "",
-      }))
+      }));
     }
-  }, [])
+  }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleOptionChange = (index, field, value) => {
-    const updatedOptions = [...formData.options]
-    updatedOptions[index][field] = value
-    setFormData({ ...formData, options: updatedOptions })
-  }
+    const updatedOptions = [...formData.options];
+    updatedOptions[index][field] = value;
+    setFormData({ ...formData, options: updatedOptions });
+  };
 
   const handleImageChange = (e, type, index = null) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (type === "question") {
-      setFormData({ ...formData, questionImage: file })
+      setFormData({ ...formData, questionImage: file });
     } else if (type === "option") {
-      const updatedOptions = [...formData.options]
-      updatedOptions[index].image = file
-      setFormData({ ...formData, options: updatedOptions })
+      const updatedOptions = [...formData.options];
+      updatedOptions[index].image = file;
+      setFormData({ ...formData, options: updatedOptions });
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const token = localStorage.getItem("token")
-    const formDataToSend = new FormData()
+    const token = localStorage.getItem("token");
+    const formDataToSend = new FormData();
 
-    formDataToSend.append("questionText", formData.questionText)
-    formDataToSend.append("year", formData.year)
-    formDataToSend.append("subject", formData.subject)
-    formDataToSend.append("correctAnswer", formData.correctAnswer)
+    formDataToSend.append("questionText", formData.questionText);
+    formDataToSend.append("year", formData.year);
+    formDataToSend.append("subject", formData.subject);
+    formDataToSend.append("correctAnswer", formData.correctAnswer);
+    formDataToSend.append("grade", formData.grade);
 
     if (formData.questionImage) {
-      formDataToSend.append("questionImage", formData.questionImage)
+      formDataToSend.append("questionImage", formData.questionImage);
     }
 
-    // Append options in the format the backend expects
     formData.options.forEach((option, index) => {
-      formDataToSend.append(`optionText${index}`, option.text)
+      formDataToSend.append(`optionText${index}`, option.text);
       if (option.image) {
-        formDataToSend.append(`optionImage${index}`, option.image)
+        formDataToSend.append(`optionImage${index}`, option.image);
       }
-    })
+    });
 
     try {
       const response = await axios.post("/api/v1/bioEntrance", formDataToSend, {
@@ -85,9 +86,9 @@ const BiologyAddEntrance = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
-      })
+      });
 
-      setMessage(response.data.message)
+      setMessage(response.data.message);
       setFormData({
         questionText: "",
         questionImage: null,
@@ -100,12 +101,13 @@ const BiologyAddEntrance = () => {
         correctAnswer: "",
         year: "",
         subject: formData.subject,
-      })
+        grade: "",
+      });
     } catch (error) {
-      setMessage("Failed to add question. Please try again.")
-      console.error("Error:", error)
+      setMessage("Failed to add question. Please try again.");
+      console.error("Error:", error);
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -133,7 +135,6 @@ const BiologyAddEntrance = () => {
                 value={option.text}
                 onChange={(e) => handleOptionChange(index, "text", e.target.value)}
               />
-
               <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, "option", index)} />
             </div>
           ))}
@@ -150,6 +151,17 @@ const BiologyAddEntrance = () => {
         </div>
 
         <div>
+          <label>Grade:</label>
+          <select name="grade" value={formData.grade} onChange={handleChange} required>
+            <option value="">Select Grade</option>
+            <option value="9">Grade 9</option>
+            <option value="10">Grade 10</option>
+            <option value="11">Grade 11</option>
+            <option value="12">Grade 12</option>
+          </select>
+        </div>
+
+        <div>
           <label>Subject:</label>
           <input type="text" name="subject" value={formData.subject} disabled />
         </div>
@@ -157,10 +169,10 @@ const BiologyAddEntrance = () => {
         <button type="submit">Add Question</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default BiologyAddEntrance
+export default BiologyAddEntrance;
 
 
 

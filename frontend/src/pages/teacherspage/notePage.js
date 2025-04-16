@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import '../../css/noteadd.css';
 
 const UploadNoteForm = () => {
@@ -11,6 +12,21 @@ const UploadNoteForm = () => {
     chapter: ''
   });
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setFormData(prev => ({
+          ...prev,
+          subject: decodedToken.subject || ''
+        }));
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,14 +42,14 @@ const UploadNoteForm = () => {
       const response = await axios.post('/api/v1/notes', formData);
       setMessage('Note created successfully!');
       
-      // Clear form fields after successful submission
-      setFormData({
+      // Clear form fields after successful submission, keeping subject
+      setFormData(prev => ({
         title: '',
         description: '',
-        subject: '',
+        subject: prev.subject,
         grade: '9',
         chapter: ''
-      });
+      }));
       
       console.log(response.data);
     } catch (error) {
@@ -69,7 +85,7 @@ const UploadNoteForm = () => {
             type="text"
             name="subject"
             value={formData.subject}
-            onChange={handleChange}
+            disabled
             required
           />
         </div>

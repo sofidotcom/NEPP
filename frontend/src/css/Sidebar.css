@@ -1,69 +1,57 @@
-/* Sidebar.css */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif; /* Consistent typography */
-}
-
-/* Sidebar Container */
-.sidebar {
-  width: 350px; /* Fixed width for sidebar */
+/* Sidebar.css - Scoped version */
+.sidebar-r {
+  width: 350px;
   height: 100vh;
-  background-color: #1a2a44; /* Darker, more professional color */
+  background-color: #1a2a44;
   color: #ecf0f1;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
-  margin: 0; /* Ensure no margin */
-  padding: 0; /* Ensure no padding that might cause a gap */
   transition: transform 0.3s ease;
-  z-index: 1000; /* Ensure sidebar is above other content */
+  z-index: 1000;
 }
 
-/* Profile Section */
-.profile-section {
+.sidebar-r-profile-section {
   padding: 20px;
   margin-bottom: 20px;
-  background-color: #2c3e50; /* Slightly lighter than sidebar */
+  background-color: #2c3e50;
   text-align: center;
 }
 
-.profile-section h3 {
+.sidebar-r-profile-section h3 {
   margin: 0 0 10px;
   font-size: 24px;
   font-weight: 600;
   color: #ffffff;
 }
 
-.profile-section p {
+.sidebar-r-profile-section p {
   margin: 0;
   font-size: 16px;
   color: #b0c4de;
 }
 
-/* Navigation Links (for sub-folder items) */
-.navv {
+.sidebar-r-navv {
   color: #ecf0f1;
   text-decoration: none;
   font-size: 14px;
-  transition: drownedcolor 0.2s ease;
-  display: block; /* Ensure full clickable area */
-  padding: 8px; /* Consistent padding with folder-item */
+  transition: color 0.2s ease;
+  display: block;
+  padding: 8px;
 }
 
-.navv:hover {
-  color: #3498db; /* Highlight on hover */
+.sidebar-r-navv:hover {
+  color: #3498db;
 }
 
-/* Sidebar Sections */
-.sidebar-section {
+.sidebar-r-section {
   margin-bottom: 10px;
   padding: 5px 15px;
 }
 
-.section-header {
+.sidebar-r-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,18 +64,16 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.section-header:hover {
+.sidebar-r-section-header:hover {
   background-color: #34495e;
 }
 
-/* Section Content */
-.section-content {
+.sidebar-r-section-content {
   margin-top: 10px;
   padding-left: 15px;
 }
 
-/* Folder Items (used for Quizzes section links and other clickable items) */
-.folder-item {
+.sidebar-r-folder-item {
   padding: 10px;
   background-color: #34495e;
   border-radius: 6px;
@@ -95,28 +81,16 @@ body {
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s ease;
-  color: #ecf0f1; /* Ensure text color matches sidebar */
-  text-decoration: none; /* Remove underline for Link elements */
-  display: block; /* Ensure full clickable area for Links */
+  color: #ecf0f1;
+  text-decoration: none;
+  display: block;
 }
 
-.folder-item:hover {
+.sidebar-r-folder-item:hover {
   background-color: #4a6278;
 }
 
-/* Specific styling for Links within folder-item (optional for consistency) */
-.folder-item a {
-  color: #ecf0f1;
-  text-decoration: none;
-  display: block; /* Ensure full clickable area */
-}
-
-.folder-item a:hover {
-  color: #3498db; /* Consistent hover color with navv */
-}
-
-/* Sub-section Headers */
-.sub-section-header {
+.sidebar-r-sub-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -127,17 +101,16 @@ body {
   font-size: 14px;
 }
 
-.sub-section-header:hover {
+.sidebar-r-sub-section-header:hover {
   background-color: #34495e;
 }
 
-.sub-folder {
+.sidebar-r-sub-folder {
   margin-left: 15px;
   margin-top: 5px;
 }
 
-/* Logout and Chat Links */
-.logoutt {
+.sidebar-r-logoutt {
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
@@ -147,35 +120,34 @@ body {
   transition: color 0.2s ease;
 }
 
-.logoutt:hover {
-  color: #e74c3c; /* Red for logout to indicate action */
+.sidebar-r-logoutt:hover {
+  color: #e74c3c;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar-r {
     width: 80%;
     max-width: 250px;
     transform: translateX(-100%);
   }
 
-  .ns-sidebar-open .sidebar {
+  .sidebar-r-open .sidebar-r {
     transform: translateX(0);
   }
 
-  .section-header {
+  .sidebar-r-section-header {
     font-size: 14px;
   }
 
-  .folder-item {
+  .sidebar-r-folder-item {
     font-size: 12px;
   }
 
-  .navv {
+  .sidebar-r-navv {
     font-size: 12px;
   }
 
-  .logoutt {
+  .sidebar-r-logoutt {
     font-size: 14px;
   }
 }

@@ -272,7 +272,7 @@ const ChatRoom = () => {
         <div className="typing-indicator">
           {typingUsers.length === 1
             ? `${typingUsers[0].role === "teacher" ? "Teacher" : "Someone"} is typing...`
-            : `${typingUsers.length} people are typing...`}
+            : `${typingUsers.length} students are typing...`}
         </div>
       )}
 

@@ -13,6 +13,8 @@ const BioExamDisplay = () => {
     const [error, setError] = useState(null);
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [completedLevels, setCompletedLevels] = useState({});
+    const [showResults, setShowResults] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -46,6 +48,25 @@ const BioExamDisplay = () => {
         }
     };
 
+    const fetchCompletedLevels = async (userInfo) => {
+        try {
+            const scoresRes = await axios.get(
+                `/api/v1/quizscore?studentId=${userInfo.userId}&subject=${subject}`,
+                { headers: { Authorization: `Bearer ${userInfo.token}` } }
+            );
+
+            const completed = {};
+            scoresRes.data.data.forEach(score => {
+                if (score.percentage >= 70) {
+                    completed[score.level] = true;
+                }
+            });
+            setCompletedLevels(completed);
+        } catch (error) {
+            console.error("Error fetching completed levels:", error);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -65,10 +86,9 @@ const BioExamDisplay = () => {
                     throw new Error("No questions found for this subject");
                 }
 
-                console.log("Fetched Levels:", questionsRes.data.data);
                 setLevels(questionsRes.data.data);
-
                 await fetchProgress(userInfo);
+                await fetchCompletedLevels(userInfo);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError(error.response?.data?.message || error.message);
@@ -83,7 +103,6 @@ const BioExamDisplay = () => {
     }, [subject, navigate]);
 
     const handleAnswerChange = (questionId, selectedOption) => {
-        console.log(`Selected answer for question ${questionId}: ${selectedOption}`);
         setAnswers(prev => ({
             ...prev,
             [questionId]: selectedOption
@@ -93,13 +112,14 @@ const BioExamDisplay = () => {
     const handleLevelToggle = (level) => {
         if (unlockedLevels[subject]?.includes(level)) {
             setExpandedLevel(expandedLevel === level ? null : level);
-            setAnswers({});
+            setAnswers({}); // Reset answers when toggling
         }
     };
 
     const handleBack = () => {
         setExpandedLevel(null);
         setAnswers({});
+        setShowResults(false);
     };
 
     const handleSubmit = async (level) => {
@@ -111,22 +131,10 @@ const BioExamDisplay = () => {
             }
 
             const questions = levels[`level${level}`];
-            if (!questions || questions.length === 0) {
-                throw new Error("No questions found for this level");
-            }
-
-            console.log("Answers:", answers);
-            console.log("Questions:", questions);
-
             const score = questions.reduce((acc, q) => {
-                if (!answers[q._id]) {
-                    console.log(`No answer selected for question ${q._id}`);
-                    return acc;
-                }
-
+                if (!answers[q._id]) return acc;
                 const studentAnswer = String(answers[q._id]).toUpperCase().trim();
                 const correctAnswer = String(q.correctAnswer).toUpperCase().trim();
-                console.log(`Comparing ${studentAnswer} === ${correctAnswer} for question ${q._id}`);
                 return studentAnswer === correctAnswer ? acc + 1 : acc;
             }, 0);
 
@@ -147,19 +155,23 @@ const BioExamDisplay = () => {
             );
 
             await fetchProgress(userInfo);
+            await fetchCompletedLevels(userInfo);
 
-            if (percentage >= 70 && level < 5) {
-                const nextLevel = level + 1;
-                if (unlockedLevels[subject].includes(nextLevel)) {
-                    setMessage(`You scored ${percentage.toFixed(0)}%. Level ${nextLevel} is already unlocked.`);
+            setShowResults(true); // Show results immediately after submission
+            if (percentage >= 70) {
+                if (level < 5) {
+                    const nextLevel = level + 1;
+                    if (unlockedLevels[subject].includes(nextLevel)) {
+                        setMessage(`You scored ${percentage.toFixed(0)}%. Level ${nextLevel} is already unlocked.`);
+                    } else {
+                        setMessage(`Congratulations! You scored ${percentage.toFixed(0)}% and unlocked Level ${nextLevel}!`);
+                    }
                 } else {
-                    setMessage(`Congratulations! You scored ${percentage.toFixed(0)}% and unlocked Level ${nextLevel}!`);
+                    setMessage(`You scored ${percentage.toFixed(0)}% - Perfect score on all levels!`);
                 }
             } else {
                 setMessage(`You scored ${score}/${questions.length} (${percentage.toFixed(0)}%). You need 70% to unlock the next level.`);
             }
-
-            setAnswers({});
         } catch (error) {
             console.error("Error submitting quiz:", error);
             setError(error.response?.data?.message || "Failed to submit quiz");
@@ -181,6 +193,7 @@ const BioExamDisplay = () => {
                     <div className="level-tabs">
                         {[1, 2, 3, 4, 5].map(level => {
                             const isUnlocked = unlockedLevels[subject]?.includes(level) || false;
+                            const isCompleted = completedLevels[level] || false;
                             return (
                                 <div
                                     key={level}
@@ -193,11 +206,13 @@ const BioExamDisplay = () => {
                                         disabled={!isUnlocked}
                                         className={`level-tab ${
                                             expandedLevel === level ? "active" : ""
-                                        } ${isUnlocked ? "unlocked" : "locked"}`}
+                                        } ${isUnlocked ? "unlocked" : "locked"} ${
+                                            isCompleted ? "completed" : ""
+                                        }`}
                                     >
                                         <span>Level {level}</span>
                                         <span className="lock-icon">
-                                            {isUnlocked ? "🔑" : "🔒"}
+                                            {isUnlocked ? (isCompleted ? "✅" : "🔑") : "🔒"}
                                         </span>
                                     </button>
                                 </div>
@@ -215,37 +230,67 @@ const BioExamDisplay = () => {
                                 </button>
                             </div>
                             <div className="questions-list">
-                                {levels[`level${expandedLevel}`].map((question, index) => (
-                                    <div key={`q-${question._id}`} className="question-card">
-                                        <h3>Q{index + 1}: {question.question}</h3>
-                                        <div className="options">
-                                            {question.options.map((option, optIndex) => (
-                                                <div key={`opt-${optIndex}`} className="option">
-                                                    <input
-                                                        type="radio"
-                                                        id={`q-${question._id}-${optIndex}`}
-                                                        name={`q-${question._id}`}
-                                                        checked={answers[question._id] === String.fromCharCode(65 + optIndex)}
-                                                        onChange={() => handleAnswerChange(question._id, String.fromCharCode(65 + optIndex))}
-                                                    />
-                                                    <label htmlFor={`q-${question._id}-${optIndex}`}>
-                                                        {String.fromCharCode(65 + optIndex)}. {option}
-                                                    </label>
+                                {levels[`level${expandedLevel}`].map((question, index) => {
+                                    const correctAnswer = question.correctAnswer.toUpperCase().trim();
+                                    const shouldShowResults = completedLevels[expandedLevel] || showResults;
+
+                                    return (
+                                        <div
+                                            key={`q-${question._id}`}
+                                            className={`question-card ${completedLevels[expandedLevel] ? "completed-level" : ""}`}
+                                        >
+                                            <h3>Q{index + 1}: {question.question}</h3>
+                                            <div className="options">
+                                                {question.options.map((option, optIndex) => {
+                                                    const optionLetter = String.fromCharCode(65 + optIndex);
+                                                    const isCorrect = optionLetter === correctAnswer;
+                                                    const isSelected = answers[question._id] === optionLetter;
+
+                                                    return (
+                                                        <div
+                                                            key={`opt-${optIndex}`}
+                                                            className={`option ${
+                                                                shouldShowResults ? (isCorrect ? "correct-answer" : isSelected ? "incorrect-answer" : "") : ""
+                                                            }`}
+                                                        >
+                                                            <input
+                                                                type="radio"
+                                                                id={`q-${question._id}-${optIndex}`}
+                                                                name={`q-${question._id}`}
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(question._id, optionLetter)}
+                                                                disabled={shouldShowResults}
+                                                            />
+                                                            <label htmlFor={`q-${question._id}-${optIndex}`}>
+                                                                {optionLetter}. {option}
+                                                            </label>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            {shouldShowResults && (
+                                                <div className="answer-explanation">
+                                                    <p><strong>Correct Answer:</strong> {question.correctAnswer}</p>
+                                                    {question.explanation && (
+                                                        <p><strong>Explanation:</strong> {question.explanation}</p>
+                                                    )}
                                                 </div>
-                                            ))}
+                                            )}
                                         </div>
-                                    </div>
-                                ))}
-                                <button
-                                    className="submit-btn"
-                                    onClick={() => handleSubmit(expandedLevel)}
-                                    disabled={
-                                        submitting ||
-                                        Object.keys(answers).length < levels[`level${expandedLevel}`].length
-                                    }
-                                >
-                                    {submitting ? "Submitting..." : "Submit Answers"}
-                                </button>
+                                    );
+                                })}
+                                {!completedLevels[expandedLevel] && (
+                                    <button
+                                        className="submit-btn"
+                                        onClick={() => handleSubmit(expandedLevel)}
+                                        disabled={
+                                            submitting ||
+                                            Object.keys(answers).length < levels[`level${expandedLevel}`].length
+                                        }
+                                    >
+                                        {submitting ? "Submitting..." : "Submit Answers"}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}

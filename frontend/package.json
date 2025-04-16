@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^14.6.1",
     "axios": "^1.8.3",
     "cra-template": "1.2.0",
+    "framer-motion": "^12.7.2",
     "jwt-decode": "^4.0.0",
     "katex": "^0.16.21",
     "lucide-react": "^0.482.0",

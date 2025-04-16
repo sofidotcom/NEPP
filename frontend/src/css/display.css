@@ -342,25 +342,44 @@ body {
 
 
 .correct-answer {
-  color: green;
-  font-weight: bold;
+    background-color: #d4edda !important;
+    color: #17c13f;
+    border-left: 4px solid #28a745;
 }
 
 .incorrect-answer {
-  color: red;
+    background-color: #f8d7da !important;
+    color: #cd1729;
+    border-left: 4px solid #dc3545;
 }
 
 .answer-explanation {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f9f9f9;
-  border-left: 4px solid #007bff;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
+    border-radius: 0 0 8px 8px;
 }
 
 .answer-explanation p {
-  margin: 0.5rem 0;
+    margin: 0.5rem 0;
 }
 
 .answer-explanation strong {
-  color: #333;
+    color: #2c3e50;
+}
+
+.level-tab.completed {
+    background: #d4edda;
+    border-color: #28a745;
+}
+
+.level-tab.completed:hover:not(.locked) {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.question-card.completed-level {
+    background: #f8f9fa; /* Slightly different background */
+    border-left: 4px solid #28a745; /* Green border to indicate completion */
 }

@@ -19,7 +19,7 @@ router.post(
 )
 
 // GET: fetch entrance exams by year
-router.get("/bioEntrance/:year", entranceController.getEntrance)
+router.get("/entrance/:subject/:year", entranceController.getEntrance);
 
 module.exports = router
 
