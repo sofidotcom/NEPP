@@ -1,5 +1,4 @@
-/* Reset default styles and ensure full height */
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,19 +12,17 @@ body {
     min-height: 100vh;
 }
 
-/* Quiz Container */
 .quiz-container {
     max-width: 900px;
     margin: 40px auto;
-    padding: 0; /* Remove padding to let sticky elements handle spacing */
+    padding: 0;
     background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     position: relative;
-    min-height: calc(100vh - 80px); /* Account for margin */
+    min-height: calc(100vh - 80px);
 }
 
-/* Sticky Header */
 .sticky-header {
     position: sticky;
     top: 0;
@@ -37,7 +34,6 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Quiz Title */
 .quiz-title {
     font-size: 2.5rem;
     font-weight: 700;
@@ -51,7 +47,6 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-/* Level Tabs - Horizontal Layout */
 .level-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -69,7 +64,7 @@ body {
 
 .level-tab-wrapper.blocked {
     opacity: 0.4;
-    pointer-events: none; /* Prevent interaction with blocked levels */
+    pointer-events: none;
 }
 
 .level-tab {
@@ -113,22 +108,19 @@ body {
 }
 
 .lock-icon {
-    font-size: 1.5rem; /* Larger icon size */
+    font-size: 1.5rem;
 }
 
-/* Scrollable Content */
 .scrollable-content {
-    padding: 0 30px 30px 30px; /* Add padding to the scrollable area */
-    max-height: calc(100vh - 200px); /* Adjust based on header height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 0 30px 30px 30px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
 }
 
-/* Questions Section */
 .questions-section {
     position: relative;
 }
 
-/* Sticky Back Button */
 .sticky-back-btn {
     position: sticky;
     top: 0;
@@ -136,6 +128,8 @@ body {
     z-index: 9;
     padding: 10px 0;
     margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
 }
 
 .back-btn {
@@ -158,12 +152,27 @@ body {
     transform: translateX(-3px);
 }
 
-/* Questions List */
-.questions-list {
-    padding-bottom: 20px; /* Ensure space for the submit button */
+.retake-btn {
+    padding: 10px 20px;
+    background: #f59e0b;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Question Card */
+.retake-btn:hover {
+    background: #d97706;
+    transform: translateX(3px);
+}
+
+.questions-list {
+    padding-bottom: 20px;
+}
+
 .question-card {
     background: #ffffff;
     padding: 20px;
@@ -186,7 +195,6 @@ body {
     word-wrap: break-word;
 }
 
-/* Options */
 .options {
     display: flex;
     flex-direction: column;
@@ -221,7 +229,6 @@ body {
     word-wrap: break-word;
 }
 
-/* Submit Button */
 .submit-btn {
     display: block;
     margin: 20px auto 0;
@@ -246,7 +253,6 @@ body {
     cursor: not-allowed;
 }
 
-/* Loading, Error, and Message */
 .loading, .error, .message {
     padding: 15px;
     margin: 15px 0;
@@ -270,7 +276,6 @@ body {
     color: #155724;
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -293,7 +298,16 @@ body {
     }
 }
 
-/* Responsive Adjustments */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.newly-unlocked {
+    animation: pulse 2s infinite;
+}
+
 @media (max-width: 768px) {
     .quiz-container {
         margin: 20px;
@@ -322,7 +336,7 @@ body {
     }
 
     .scrollable-content {
-        max-height: calc(100vh - 180px); /* Adjust for smaller header */
+        max-height: calc(100vh - 180px);
         padding: 0 15px 15px 15px;
     }
 
@@ -334,12 +348,11 @@ body {
         font-size: 1rem;
     }
 
-    .submit-btn, .back-btn {
+    .submit-btn, .back-btn, .retake-btn {
         padding: 10px 20px;
         font-size: 1rem;
     }
 }
-
 
 .correct-answer {
     background-color: #d4edda !important;
@@ -380,6 +393,6 @@ body {
 }
 
 .question-card.completed-level {
-    background: #f8f9fa; /* Slightly different background */
-    border-left: 4px solid #28a745; /* Green border to indicate completion */
-}
+    background: #f8f9fa;
+    border-left: 4px solid #28a745;
+} */

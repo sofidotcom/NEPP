@@ -1,7 +1,8 @@
-body{
+/* body {
     padding: 0px;
     margin: 0px;
 }
+
 .ethio-matric-container {
   font-family: Arial, sans-serif;
   max-width: 300px;
@@ -11,52 +12,47 @@ body{
   border-radius: 10px;
   background-color: #f9f9f9;
   height: 100vh;
-  
-
-
 }
 
 .header {
-  display: block; /* Ensure the header itself is block */
-  text-align: center; /* Center-align the content */
+  display: block;
+  text-align: center;
   margin-bottom: 20px;
 }
 
 .profile {
-   
     margin-left: 25%;
     padding-top: 50px;
-    /* Ensure the header itself is block */
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  width:120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: whitesmoke;
-  
-   /* Add space between elements */
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: whitesmoke;
 }
 
 .profile-name {
-  font-size: 18px;
-  margin-bottom: 10px; /* Add space between elements */
+  font-size: 1.8rem;
+  color: #105ae2;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 
 .contact-info {
-  display: block; /* Ensure the contact info is block */
-  margin-bottom: 10px; /* Add space between elements */
+  display: block;
+  margin-bottom: 10px;
 }
 
 .contact-info .icon {
-  margin-right: 10px; /* Space between icon and text */
-  color: #555; /* Icon color */
+  margin-right: 10px;
+  color: #555;
 }
 
 .contact-info span {
   font-size: 16px;
-  color: #333; /* Text color */
+  color: #333;
 }
 
 .menu {
@@ -71,7 +67,6 @@ body{
   margin: 5px 0;
   background-color: #fff;
   border-radius: 5px;
-  
 }
 
 .menu-item .icon {
@@ -103,16 +98,5 @@ body{
   .menu-item span {
     font-size: 14px;
   }
-}
-
-
-
-
-/* Profile name section */
-.profile-name {
-    font-size: 1.8rem;
-    color: #105ae2;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
+} */
 

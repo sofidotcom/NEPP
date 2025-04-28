@@ -1,6 +1,4 @@
-
-/* SignUp.css */
-.signup-page-container {
+/* .signup-page-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,8 +6,6 @@
     background: #f3f3f3;
     width: 100%;
     margin-left: 10%;
-    
-    
 }
 
 .signup-content {
@@ -19,24 +15,24 @@
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(36, 33, 33, 0.938);
-    max-width: 1000px; /* Adjust based on your design */
+    max-width: 1000px;
     width: 100%;
     overflow: hidden;
 }
 
 .signup-form-section {
     padding: 40px;
-    width: 50%; /* Half of the container */
+    width: 50%;
 }
 
 .signup-image-section {
-    width: 50%; /* Half of the container */
+    width: 50%;
 }
 
 .signup-image-section img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the area */
+    object-fit: cover;
 }
 
 .signup-page-container h1 {
@@ -105,10 +101,10 @@
     }
 
     .signup-image-section {
-        display: none; /* Hide image on smaller screens */
+        display: none;
     }
 
     .signup-form-section {
         padding: 20px;
     }
-}
+} */

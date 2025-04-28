@@ -6,7 +6,7 @@ import SidebarR from "../../studentspage/studentSideBar";
 
 const BioExamDisplay = () => {
     const [levels, setLevels] = useState({});
-    const [unlockedLevels, setUnlockedLevels] = useState({ Biology: [1] });
+    const [unlockedLevels, setUnlockedLevels] = useState({});
     const [expandedLevel, setExpandedLevel] = useState(null);
     const [answers, setAnswers] = useState({});
     const [loading, setLoading] = useState(true);
@@ -14,11 +14,12 @@ const BioExamDisplay = () => {
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [completedLevels, setCompletedLevels] = useState({});
-    const [showResults, setShowResults] = useState(false);
+    const [showResults, setShowResults] = useState({}); // Now { [subject]: { [level]: boolean } }
+    const [newlyUnlocked, setNewlyUnlocked] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
-    const subject = new URLSearchParams(location.search).get("subject") || "Biology";
+    const subject = (new URLSearchParams(location.search).get("subject") || "Biology").toLowerCase();
 
     const getUserInfo = () => {
         const userId = localStorage.getItem("userId");
@@ -33,18 +34,25 @@ const BioExamDisplay = () => {
                 { headers: { Authorization: `Bearer ${userInfo.token}` } }
             );
 
-            let fetchedProgress = progressRes.data || {};
-            if (!fetchedProgress[subject]) {
-                fetchedProgress[subject] = [1];
-            } else if (!fetchedProgress[subject].includes(1)) {
-                fetchedProgress[subject].push(1);
-                fetchedProgress[subject].sort((a, b) => a - b);
+            let fetchedProgress = progressRes.data.data?.subjectProgress || {};
+            const normalizedProgress = {};
+            Object.keys(fetchedProgress).forEach(key => {
+                normalizedProgress[key.toLowerCase()] = fetchedProgress[key];
+            });
+
+            if (!normalizedProgress[subject]) {
+                normalizedProgress[subject] = [1];
+            } else if (!normalizedProgress[subject].includes(1)) {
+                normalizedProgress[subject] = [1, ...normalizedProgress[subject]].sort((a, b) => a - b);
             }
-            setUnlockedLevels(fetchedProgress);
+
+            setUnlockedLevels(normalizedProgress);
+            return normalizedProgress;
         } catch (error) {
             console.error("Error fetching progress:", error);
-            setError(error.response?.data?.message || "Failed to fetch progress");
-            setUnlockedLevels({ [subject]: [1] });
+            const defaultProgress = { [subject]: [1] };
+            setUnlockedLevels(defaultProgress);
+            return defaultProgress;
         }
     };
 
@@ -56,12 +64,19 @@ const BioExamDisplay = () => {
             );
 
             const completed = {};
+            const results = {};
             scoresRes.data.data.forEach(score => {
                 if (score.percentage >= 70) {
                     completed[score.level] = true;
+                    results[score.level] = true;
                 }
             });
             setCompletedLevels(completed);
+            setShowResults(prev => ({
+                ...prev,
+                [subject]: { ...prev[subject], ...results }
+            }));
+            console.log("Fetched completed levels and results for", subject, ":", { completed, results });
         } catch (error) {
             console.error("Error fetching completed levels:", error);
         }
@@ -74,25 +89,28 @@ const BioExamDisplay = () => {
             try {
                 const userInfo = getUserInfo();
                 if (!userInfo) {
-                    throw new Error("User not authenticated");
+                    throw new Error("Please log in to access the quiz");
                 }
 
-                const questionsRes = await axios.get(
-                    `/api/v1/quiz?subject=${subject}&groupByLevel=true`,
-                    { headers: { Authorization: `Bearer ${userInfo.token}` } }
-                );
+                const [questionsRes] = await Promise.all([
+                    axios.get(
+                        `/api/v1/quiz?subject=${subject}&groupByLevel=true`,
+                        { headers: { Authorization: `Bearer ${userInfo.token}` } }
+                    ),
+                    fetchProgress(userInfo),
+                    fetchCompletedLevels(userInfo)
+                ]);
 
                 if (!questionsRes.data.success || !questionsRes.data.data || Object.keys(questionsRes.data.data).length === 0) {
                     throw new Error("No questions found for this subject");
                 }
 
                 setLevels(questionsRes.data.data);
-                await fetchProgress(userInfo);
-                await fetchCompletedLevels(userInfo);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                setError(error.response?.data?.message || error.message);
+                setError(error.response?.data?.message || "Failed to load quiz. Please try again.");
                 if (error.response?.status === 401) {
+                    localStorage.removeItem("token");
                     navigate("/login");
                 }
             } finally {
@@ -112,14 +130,46 @@ const BioExamDisplay = () => {
     const handleLevelToggle = (level) => {
         if (unlockedLevels[subject]?.includes(level)) {
             setExpandedLevel(expandedLevel === level ? null : level);
-            setAnswers({}); // Reset answers when toggling
+            setAnswers({});
         }
     };
 
     const handleBack = () => {
         setExpandedLevel(null);
         setAnswers({});
-        setShowResults(false);
+    };
+
+    const handleRetake = async (level) => {
+        try {
+            const userInfo = getUserInfo();
+            if (!userInfo) {
+                throw new Error("Please log in to reset the level");
+            }
+
+            await axios.post(
+                '/api/v1/quizscore/reset',
+                { studentId: userInfo.userId, subject, level },
+                { headers: { Authorization: `Bearer ${userInfo.token}` } }
+            );
+
+            setCompletedLevels(prev => ({ ...prev, [level]: false }));
+            setShowResults(prev => ({
+                ...prev,
+                [subject]: { ...prev[subject], [level]: false }
+            }));
+            setAnswers({});
+
+            setUnlockedLevels(prev => {
+                const updated = { ...prev };
+                updated[subject] = updated[subject].filter(lvl => lvl <= level).sort((a, b) => a - b);
+                return updated;
+            });
+
+            setMessage("Level reset! You can now retake the quiz.");
+        } catch (error) {
+            console.error("Error resetting level:", error);
+            setError(error.response?.data?.message || "Failed to reset level. Please try again.");
+        }
     };
 
     const handleSubmit = async (level) => {
@@ -127,10 +177,14 @@ const BioExamDisplay = () => {
         try {
             const userInfo = getUserInfo();
             if (!userInfo) {
-                throw new Error("User not authenticated");
+                throw new Error("Please log in to submit the quiz");
             }
 
             const questions = levels[`level${level}`];
+            if (!questions || questions.length === 0) {
+                throw new Error("No questions available for this level");
+            }
+
             const score = questions.reduce((acc, q) => {
                 if (!answers[q._id]) return acc;
                 const studentAnswer = String(answers[q._id]).toUpperCase().trim();
@@ -154,27 +208,46 @@ const BioExamDisplay = () => {
                 { headers: { Authorization: `Bearer ${userInfo.token}` } }
             );
 
-            await fetchProgress(userInfo);
-            await fetchCompletedLevels(userInfo);
+            // Show results if score is >= 70%
+            if (percentage >= 70) {
+                setShowResults(prev => {
+                    const updated = {
+                        ...prev,
+                        [subject]: { ...prev[subject], [level]: true }
+                    };
+                    console.log("Updated showResults after submission for", subject, ":", updated);
+                    return updated;
+                });
+                setCompletedLevels(prev => ({ ...prev, [level]: true }));
+                if (level < 5) {
+                    setUnlockedLevels(prev => {
+                        const updated = { ...prev };
+                        if (!updated[subject]) updated[subject] = [1];
+                        if (!updated[subject].includes(level + 1)) {
+                            updated[subject] = [...updated[subject], level + 1].sort((a, b) => a - b);
+                            setNewlyUnlocked(level + 1);
+                            setTimeout(() => setNewlyUnlocked(null), 3000);
+                        }
+                        return updated;
+                    });
+                }
+            }
 
-            setShowResults(true); // Show results immediately after submission
             if (percentage >= 70) {
                 if (level < 5) {
-                    const nextLevel = level + 1;
-                    if (unlockedLevels[subject].includes(nextLevel)) {
-                        setMessage(`You scored ${percentage.toFixed(0)}%. Level ${nextLevel} is already unlocked.`);
-                    } else {
-                        setMessage(`Congratulations! You scored ${percentage.toFixed(0)}% and unlocked Level ${nextLevel}!`);
-                    }
+                    setMessage(`Congratulations! You scored ${percentage.toFixed(0)}% and unlocked Level ${level + 1}!`);
                 } else {
-                    setMessage(`You scored ${percentage.toFixed(0)}% - Perfect score on all levels!`);
+                    setMessage(`Amazing! You scored ${percentage.toFixed(0)}% and completed all levels!`);
                 }
             } else {
-                setMessage(`You scored ${score}/${questions.length} (${percentage.toFixed(0)}%). You need 70% to unlock the next level.`);
+                setMessage(`You scored ${percentage.toFixed(0)}%. Score 70% or higher to unlock the next level.`);
             }
+
+            await Promise.all([fetchProgress(userInfo), fetchCompletedLevels(userInfo)]);
+
         } catch (error) {
             console.error("Error submitting quiz:", error);
-            setError(error.response?.data?.message || "Failed to submit quiz");
+            setError(error.response?.data?.message || "Failed to submit quiz. Please check your connection and try again.");
         } finally {
             setSubmitting(false);
         }
@@ -188,7 +261,7 @@ const BioExamDisplay = () => {
             <SidebarR />
             <div className="quiz-container">
                 <div className="sticky-header">
-                    <div className="quiz-title">{subject} Quiz</div>
+                    <div className="quiz-title">{subject.charAt(0).toUpperCase() + subject.slice(1)} Quiz</div>
                     {message && <div className="message">{message}</div>}
                     <div className="level-tabs">
                         {[1, 2, 3, 4, 5].map(level => {
@@ -197,18 +270,13 @@ const BioExamDisplay = () => {
                             return (
                                 <div
                                     key={level}
-                                    className={`level-tab-wrapper ${
-                                        expandedLevel && !isUnlocked ? "blocked" : ""
-                                    }`}
+                                    className={`level-tab-wrapper ${expandedLevel && !isUnlocked ? "blocked" : ""} ${newlyUnlocked === level ? "newly-unlocked" : ""}`}
                                 >
                                     <button
                                         onClick={() => handleLevelToggle(level)}
                                         disabled={!isUnlocked}
-                                        className={`level-tab ${
-                                            expandedLevel === level ? "active" : ""
-                                        } ${isUnlocked ? "unlocked" : "locked"} ${
-                                            isCompleted ? "completed" : ""
-                                        }`}
+                                        className={`level-tab ${expandedLevel === level ? "active" : ""} ${isUnlocked ? "unlocked" : "locked"} ${isCompleted ? "completed" : ""}`}
+                                        title={isUnlocked ? (isCompleted ? "Level completed" : "Click to attempt") : "Complete previous level to unlock"}
                                     >
                                         <span>Level {level}</span>
                                         <span className="lock-icon">
@@ -228,16 +296,21 @@ const BioExamDisplay = () => {
                                 <button className="back-btn" onClick={handleBack}>
                                     ← Back to Levels
                                 </button>
+                                {completedLevels[expandedLevel] && (
+                                    <button className="retake-btn" onClick={() => handleRetake(expandedLevel)}>
+                                        Retake Level
+                                    </button>
+                                )}
                             </div>
                             <div className="questions-list">
                                 {levels[`level${expandedLevel}`].map((question, index) => {
                                     const correctAnswer = question.correctAnswer.toUpperCase().trim();
-                                    const shouldShowResults = completedLevels[expandedLevel] || showResults;
+                                    const shouldShowResults = showResults[subject]?.[expandedLevel] || false;
 
                                     return (
                                         <div
                                             key={`q-${question._id}`}
-                                            className={`question-card ${completedLevels[expandedLevel] ? "completed-level" : ""}`}
+                                            className={`question-card ${shouldShowResults ? "completed-level" : ""}`}
                                         >
                                             <h3>Q{index + 1}: {question.question}</h3>
                                             <div className="options">
@@ -249,9 +322,7 @@ const BioExamDisplay = () => {
                                                     return (
                                                         <div
                                                             key={`opt-${optIndex}`}
-                                                            className={`option ${
-                                                                shouldShowResults ? (isCorrect ? "correct-answer" : isSelected ? "incorrect-answer" : "") : ""
-                                                            }`}
+                                                            className={`option ${shouldShowResults ? (isCorrect ? "correct-answer" : isSelected && !isCorrect ? "incorrect-answer" : "") : ""}`}
                                                         >
                                                             <input
                                                                 type="radio"
@@ -279,7 +350,7 @@ const BioExamDisplay = () => {
                                         </div>
                                     );
                                 })}
-                                {!completedLevels[expandedLevel] && (
+                                {!showResults[subject]?.[expandedLevel] && (
                                     <button
                                         className="submit-btn"
                                         onClick={() => handleSubmit(expandedLevel)}

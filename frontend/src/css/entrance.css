@@ -1,5 +1,5 @@
 /* entrance.css */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,7 +11,7 @@ body {
   color: #333;
 }
 
-/* Exam Container */
+
 .exam-container {
   position: relative;
   width: 100%;
@@ -20,7 +20,7 @@ body {
   padding: 20px;
 }
 
-/* Controls Container */
+
 .controls-container {
   position: sticky;
   top: 0;
@@ -39,7 +39,7 @@ body {
   margin: 0 0 10px 0;
 }
 
-/* Grade and Timer Flex */
+
 .grade-timer-flex {
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* Grade Filter */
+
 .grade-filter {
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@ body {
   border-color: #3498db;
 }
 
-/* Timer Controls */
+
 .timer-controls {
   display: flex;
   align-items: center;
@@ -103,9 +103,9 @@ body {
   background-color: #2980b9;
 }
 
-/* Exam Content */
+
 .exam-content {
-  margin-top: 100px; /* Ensure content starts below sticky controls */
+  margin-top: 100px; 
   transition: filter 0.3s ease;
 }
 
@@ -124,7 +124,7 @@ body {
   z-index: 5;
 }
 
-/* Question Container */
+
 .question-container {
   background-color: #ffffff;
   border-radius: 12px;
@@ -135,7 +135,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Question Header */
+
 .question-header {
   display: flex;
   align-items: flex-start;
@@ -144,7 +144,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* Question Label */
 .question-label {
   font-size: 1.2rem;
   font-weight: 600;
@@ -153,7 +152,7 @@ body {
   white-space: nowrap;
 }
 
-/* Content Wrapper */
+
 .content-wrapper {
   flex: 1;
   display: flex;
@@ -162,7 +161,7 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Text Content */
+
 .content-wrapper p {
   font-size: 1rem;
   line-height: 1.5;
@@ -171,7 +170,7 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Image Wrapper */
+
 .image-wrapper {
   margin: 10px 0;
   max-width: 100%;
@@ -187,7 +186,7 @@ body {
   object-fit: contain;
 }
 
-/* LaTeX Wrapper */
+
 .latex-wrapper {
   margin: 5px 0;
   max-width: 100%;
@@ -195,7 +194,7 @@ body {
   padding: 5px;
 }
 
-/* Options Container */
+
 .options-container {
   display: flex;
   flex-direction: column;
@@ -204,7 +203,6 @@ body {
   width: 100%;
 }
 
-/* Option Wrapper */
 .option-wrapper {
   display: flex;
   align-items: center;
@@ -213,7 +211,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* Option Button */
+
 .option-button {
   background-color: #3498db;
   border: none;
@@ -240,14 +238,14 @@ body {
   background-color: #e74c3c;
 }
 
-/* Feedback Text */
+
 .feedback-text {
   margin-top: 15px;
   font-size: 1rem;
   color: #555;
 }
 
-/* Submit Button */
+
 .submit-button {
   display: block;
   width: 200px;
@@ -267,7 +265,7 @@ body {
   background-color: #219653;
 }
 
-/* Score Container */
+
 .score-container {
   text-align: center;
   padding: 30px;
@@ -282,7 +280,7 @@ body {
   margin: 0;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .exam-container {
     padding: 15px;
@@ -324,7 +322,7 @@ body {
   }
 
   .exam-content {
-    margin-top: 150px; /* Adjust for taller stacked controls */
+    margin-top: 150px; 
   }
 }
 
@@ -348,7 +346,7 @@ body {
   }
 
   .exam-content {
-    margin-top: 180px; /* Further adjust for mobile */
+    margin-top: 180px; 
   }
-}
+} */
 

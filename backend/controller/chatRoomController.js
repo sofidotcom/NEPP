@@ -25,7 +25,7 @@ const createChatRoom = async (req, res) => {
       participants: [
         {
           userId: teacherId,
-          userModel: "Teachers", // Changed from "Teacher" to "Teachers"
+          userModel: "Teachers",
         },
       ],
     })
@@ -103,7 +103,7 @@ const joinChatRoom = async (req, res) => {
   try {
     const { roomId } = req.params
     const userId = req.user.userId
-   const userModel = req.user.role === "teacher" ? "Teachers" : "students"
+    const userModel = req.user.role === "teacher" ? "Teachers" : "students"
     const chatRoom = await ChatRoom.findById(roomId)
 
     if (!chatRoom) {
@@ -198,13 +198,13 @@ const addModerator = async (req, res) => {
 
     // Add teacher to participants if not already
     const isParticipant = chatRoom.participants.some(
-      (p) => p.userId.toString() === teacherId && p.userModel === "Teachers", // Changed from "Teacher" to "Teachers"
+      (p) => p.userId.toString() === teacherId && p.userModel === "Teachers",
     )
 
     if (!isParticipant) {
       chatRoom.participants.push({
         userId: teacherId,
-        userModel: "Teachers", // Changed from "Teacher" to "Teachers"
+        userModel: "Teachers",
       })
     }
 
@@ -224,6 +224,24 @@ const addModerator = async (req, res) => {
   }
 }
 
+// Count all chat rooms
+const countChatRooms = async (req, res) => {
+  try {
+    const chatRoomCount = await ChatRoom.countDocuments();
+    res.status(200).json({
+      success: true,
+      count: chatRoomCount,
+      message: `${chatRoomCount} chat room(s) found`,
+    });
+  } catch (error) {
+    console.error("Count chat rooms error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to count chat rooms",
+    });
+  }
+}
+
 // Make sure to export all functions
 module.exports = {
   createChatRoom,
@@ -231,6 +249,7 @@ module.exports = {
   getChatRoomById,
   joinChatRoom,
   addModerator,
+  countChatRooms,
 }
 
 

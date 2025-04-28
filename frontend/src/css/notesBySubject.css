@@ -1,21 +1,20 @@
-/* notesBySubject.css */
-body {
+/* body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f7fa; /* Light background for a clean look */
+  background-color: #f5f7fa;
   color: #333;
 }
 
-/* Page Container */
 .ns-page-container {
   display: flex;
   width: 100%;
   min-height: 100vh;
-  margin: 0; /* Ensure no margin on the container */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-/* Sidebar Toggle Button */
 .ns-sidebar-toggle {
   position: fixed;
   top: 15px;
@@ -31,18 +30,16 @@ body {
 }
 
 .ns-notes-container {
- 
-  margin-left: 350px; /* Match sidebar width */
+  margin-left: 350px;
   padding: 30px;
   background-color: #f5f7fa;
   min-height: 100vh;
-  width: calc(100% - 350px); /* Ensure it takes remaining space */
-  box-sizing: border-box; /* Include padding in width calculation */
-  position: relative; /* Add this */
-  left: 0; /* Add this */
+  width: calc(100% - 350px);
+  box-sizing: border-box;
+  position: relative;
+  left: 0;
 }
 
-/* Ensure the sidebar has proper positioning and no gaps */
 .sidebar {
   width: 350px;
   height: 100vh;
@@ -53,20 +50,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  margin: 0; /* Remove any margin */
-  padding: 0; /* Remove any padding that might cause a gap */
+  margin: 0;
+  padding: 0;
   transition: transform 0.3s ease;
   z-index: 1000;
-}
-
-/* Update the page container to ensure proper flex layout */
-.ns-page-container {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  margin: 0; /* Ensure no margin on the container */
-  padding: 0; /* Add this to ensure no padding */
-  overflow-x: hidden; /* Add this to prevent horizontal scrolling */
 }
 
 .ns-search-bar input {
@@ -89,10 +76,9 @@ body {
   font-size: 24px;
   font-weight: 600;
   color: #1a2a44;
-  text-transform: lowercase; /* Match the screenshot */
+  text-transform: lowercase;
 }
 
-/* Chapter Section */
 .ns-chapter-section {
   margin-bottom: 40px;
   background-color: #ffffff;
@@ -100,7 +86,7 @@ body {
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
-  width: 100%; /* Ensure it takes full width */
+  width: 100%;
 }
 
 .ns-chapter-section:hover {
@@ -120,15 +106,13 @@ body {
   font-weight: 600;
 }
 
-/* Notes List */
 .ns-notes-list {
   display: grid;
-  grid-template-columns: auto auto ;
+  grid-template-columns: auto auto;
   gap: 25px;
-  width: 100%; /* Ensure it takes full width */
+  width: 100%;
 }
 
-/* Note Card */
 .ns-note-card {
   background-color: #ffffff;
   border-radius: 10px;
@@ -136,8 +120,8 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-left: 4px solid #3498db;
-  width: 100%; /* Ensure each card takes full width of its grid cell */
-  box-sizing: border-box; /* Include padding in width calculation */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .ns-note-card:hover {
@@ -159,7 +143,6 @@ body {
   line-height: 1.6;
 }
 
-/* Chapter Navigation */
 .ns-chapter-navigation {
   display: flex;
   justify-content: space-between;
@@ -167,7 +150,7 @@ body {
   margin-top: 30px;
   padding-top: 15px;
   border-top: 1px solid #e0e0e0;
-  width: 100%; /* Ensure navigation takes full width */
+  width: 100%;
 }
 
 .ns-nav-button {
@@ -199,7 +182,6 @@ body {
   font-size: 16px;
 }
 
-/* Loading and Error Messages */
 .ns-loading,
 .ns-error,
 .ns-no-notes {
@@ -210,7 +192,7 @@ body {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  width: 100%; /* Ensure these messages take full width */
+  width: 100%;
 }
 
 .ns-error {
@@ -223,7 +205,6 @@ body {
   border-left: 4px solid #777;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .ns-sidebar-toggle {
     display: block;
@@ -250,7 +231,7 @@ body {
   }
 
   .ns-notes-list {
-    grid-template-columns: 1fr; /* Single column on smaller screens */
+    grid-template-columns: 1fr;
   }
 
   .ns-chapter-navigation {
@@ -272,4 +253,4 @@ body {
   .ns-sidebar-open .sidebar {
     transform: translateX(0);
   }
-}
+} */

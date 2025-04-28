@@ -1,87 +1,85 @@
-/* General Styles */
-body {
+/* body {
     font-family: 'Arial', sans-serif;
-    background-color: #e9ecef; /* Light gray background */
+    background-color: #e9ecef;
     margin: 0;
     padding: 20px;
 }
 
 .container {
-    max-width: 600px; /* Set a maximum width for the form */
-    margin: auto; /* Center the form */
-    background-color: #ffffff; /* White background for the form */
-    padding: 20px; /* Padding inside the container */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: transform 0.3s; /* Animation for hover effect */
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
 }
 
 .container:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
+    transform: translateY(-5px);
 }
 
 h1 {
-    color: #333; /* Dark color for the heading */
+    color: #333;
     text-align: center;
     margin-bottom: 10px;
 }
 
 label {
-    display: block; /* Make labels block elements */
-    margin: 5px 0 5px; /* Margin for spacing */
-    font-weight: bold; /* Bold labels */
-    color: #555; /* Slightly lighter for contrast */
+    display: block;
+    margin: 5px 0 5px;
+    font-weight: bold;
+    color: #555;
 }
 
 textarea,
 input[type="text"] {
-    width: 100%; /* Full width inputs */
-    padding: 7px; /* Padding inside inputs */
-    margin-bottom: 15px; /* Space below inputs */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 5px; /* Rounded corners for inputs */
-    font-size: 16px; /* Font size for inputs */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 textarea:focus,
 input[type="text"]:focus {
-    border-color: #4CAF50; /* Change border color on focus */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add shadow on focus */
-    outline: none; /* Remove default outline */
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    outline: none;
 }
 
 button {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* White text for button */
-    padding: 12px; /* Padding for button */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners for button */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size for button */
-    width: 100%; /* Full width button */
-    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
-    margin-top: 10px; /* Space above button */
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .message {
-    color: red; /* Red color for error messages */
-    text-align: center; /* Center the error message */
-    margin-bottom: 15px; /* Space below message */
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-/* Responsive Styles */
 @media (max-width: 600px) {
     .container {
-        padding: 20px; /* Adjust padding for mobile */
+        padding: 20px;
     }
 
     button {
-        font-size: 14px; /* Smaller font size for mobile */
+        font-size: 14px;
     }
-}
+} */

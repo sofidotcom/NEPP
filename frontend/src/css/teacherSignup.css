@@ -1,6 +1,4 @@
-/* Base styles and resets */
-/* Base styles and resets */
-* {
+/* * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -11,14 +9,13 @@ body {
   background-color: #f5f7fa;
   color: #333;
   line-height: 1.6;
-  height: 100vh; /* Ensure body takes full viewport height */
-  margin: 0; /* Remove default margin */
-  display: flex; /* Make body a flex container */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Container styles */
 .signup-container {
   display: flex;
   justify-content: center;
@@ -42,7 +39,6 @@ body {
   transform: translateY(-5px);
 }
 
-/* Header styles */
 .signup-header {
   text-align: center;
   margin-bottom: 30px;
@@ -60,7 +56,6 @@ body {
   font-size: 16px;
 }
 
-/* Form styles */
 .signup-form {
   display: flex;
   flex-direction: column;
@@ -97,7 +92,6 @@ body {
   color: #a0aec0;
 }
 
-/* Button styles */
 .signup-button {
   background-color: #4299e1;
   color: white;
@@ -120,7 +114,6 @@ body {
   cursor: not-allowed;
 }
 
-/* Footer styles */
 .signup-footer {
   text-align: center;
   margin-top: 24px;
@@ -138,7 +131,6 @@ body {
   text-decoration: underline;
 }
 
-/* Error message styles */
 .error-message {
   background-color: #fed7d7;
   color: #c53030;
@@ -149,7 +141,6 @@ body {
   text-align: center;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .signup-card {
     padding: 30px;
@@ -173,7 +164,7 @@ body {
   .signup-button {
     padding: 12px;
   }
-}
+} */
 
 
 

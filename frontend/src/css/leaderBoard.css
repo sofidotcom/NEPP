@@ -1,5 +1,4 @@
-/* Base Styles */
-:root {
+/* :root {
   --primary-color: #4361ee;
   --primary-light: #4895ef;
   --secondary-color: #3f37c9;
@@ -11,7 +10,6 @@
   --dark-color: #212529;
   --gray-color: #6c757d;
   --light-gray: #e9ecef;
-  
   --border-radius: 12px;
   --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
@@ -33,7 +31,6 @@ body {
   margin-right: 8px;
 }
 
-/* Layout */
 .leaderboard-page {
   max-width: 1400px;
   margin: 0 auto;
@@ -90,7 +87,6 @@ body {
   display: flex;
   align-items: center;
   padding: 0 16px;
-  transition: var(--transition);
 }
 
 .search-box:hover {
@@ -126,7 +122,6 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   padding: 0 16px;
-  transition: var(--transition);
 }
 
 .filter-dropdown:hover {
@@ -157,7 +152,6 @@ body {
   color: var(--dark-color);
 }
 
-/* Spotlight */
 .leaderboard-spotlight {
   display: flex;
   background: white;
@@ -235,7 +229,6 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Main Layout */
 .leaderboard-container {
   display: flex;
   gap: 24px;
@@ -255,7 +248,6 @@ body {
   align-self: flex-start;
 }
 
-/* Sections */
 .leaderboard-section {
   background: white;
   border-radius: var(--border-radius);
@@ -284,7 +276,6 @@ body {
   gap: 12px;
 }
 
-/* Cards */
 .users-list {
   display: flex;
   flex-direction: column;
@@ -297,7 +288,6 @@ body {
   padding: 16px;
   border-radius: var(--border-radius);
   background: white;
-  transition: var(--transition);
   border: 1px solid var(--light-gray);
 }
 
@@ -385,7 +375,6 @@ body {
   font-size: 1rem;
 }
 
-/* Grid Layout */
 .users-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -397,7 +386,6 @@ body {
   border-radius: var(--border-radius);
   overflow: hidden;
   border: 1px solid var(--light-gray);
-  transition: var(--transition);
   position: relative;
 }
 
@@ -464,7 +452,6 @@ body {
   right: 10px;
 }
 
-/* Progress Cards */
 .progress-container {
   display: flex;
   flex-direction: column;
@@ -477,7 +464,6 @@ body {
   padding: 16px;
   border-radius: var(--border-radius);
   background: white;
-  transition: var(--transition);
   border: 1px solid var(--light-gray);
 }
 
@@ -568,7 +554,6 @@ body {
   margin-top: 8px;
 }
 
-/* Teams */
 .teams-list {
   display: flex;
   flex-direction: column;
@@ -581,7 +566,6 @@ body {
   padding: 16px;
   border-radius: var(--border-radius);
   background: white;
-  transition: var(--transition);
   border: 1px solid var(--light-gray);
 }
 
@@ -618,7 +602,6 @@ body {
   color: var(--gray-color);
 }
 
-/* Sidebar */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -689,8 +672,6 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: all 0.3s ease;
-
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -724,4 +705,4 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   margin-top: 4px;
-}
+} */

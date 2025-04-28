@@ -2,74 +2,48 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Index from './pages';
-//this is  authentication and authorization
 import Signup from './pages/signup';
 import Login from './pages/login';
 import Logout from './pages/logout';
 import ProtectedRoute from './pages/auth/protectedRoute';
-
 import TeacherSignup from './pages/adminpage/registerTeacher';
-
-// role authentication/authorization
 import StudentPage from './pages/studentspage/studentPage';
+import Profile from './pages/studentspage/studentProfilepage';
 import Admin from './pages/adminpage/admin';
-import Ap from './pages/teacherspage/components/p';//this is theacher page
-
-//  add and display pages   
+import Ap from './pages/teacherspage/components/p';
 import BiologyExam from './pages/teacherspage/biology/addBiologyExam';
 import BioExamDisplay from './pages/teacherspage/biology/bioExamDisplay';
-
 import BiologyAddEntrance from './pages/teacherspage/biology/addentranceExam';
-import UploadNoteForm from './pages/teacherspage/notePage'
+import UploadNoteForm from './pages/teacherspage/notePage';
 import NotesBySubject from './pages/teacherspage/noteDisplayPage';
-
-//import BioEntranceDisplay from './pages/teacherspage/biology/bioEntranceDisplay';
-
-
 import SidebarR from './pages/studentspage/studentSideBar';
 import EntranceLayout from './pages/layout/entranceLayout';
 import UploadPDF from './pages/teacherspage/pdfUploadPage';
 import StudentPDFList from './pages/studentspage/dawnloadPage';
-
 import NotificationBell from './pages/studentspage/notificationDisplaypage';
-
 import ChatRoom from './pages/components/chatRoom';
 import ChatRoomsList from './pages/components/chatRoomsList';
-
 import Leaderboard from './pages/leaderBoard';
-
-//leader board  pages   
 import EntranceLeaderboard from './pages/components/entranceLeaderBoard';
+import QuizLeaderboard from './pages/components/quizLeaderboard';
+import StudentDisplay from './pages/adminpage/studentDisplay';
+import TeacherDisplay from './pages/adminpage/displayTeachers';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        
         {/* Public Routes */}
-        
         <Route path="/" element={<Index />} />
-        <Route path="/ap" element={<Ap/>} />
-        
+        <Route path="/ap" element={<Ap />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/sign" element={<TeacherSignup />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-         <Route path="/admin" element={<Admin />} />
-        
-
-        
-       {/* leaderboard */}
-
- <Route path="/el" element={<EntranceLeaderboard />} />
-   
-
-
-
-        {/* leaderboard */}
-        
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/el" element={<EntranceLeaderboard />} />
+        <Route path="/ql" element={<QuizLeaderboard />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
@@ -77,25 +51,19 @@ const App = () => {
           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
           <Route path="/BiologyExam" element={<BiologyExam />} />
           <Route path="/quiz" element={<BioExamDisplay />} />
-         <Route path="/entrance/:subject/:year" element={<EntranceLayout />} />
+          <Route path="/entrance/:subject/:year" element={<EntranceLayout />} />
           <Route path="/upload" element={<UploadNoteForm />} />
-          
           <Route path="/notes/:subject/:grade" element={<NotesBySubject />} />
-            <Route path="/pdf" element={<UploadPDF/>} />
-             <Route path="/download" element={<StudentPDFList/>} />
-            <Route path="/notification" element={< NotificationBell/>} />  
-
-           
-          
+          <Route path="/pdf" element={<UploadPDF />} />
+          <Route path="/download" element={<StudentPDFList />} />
+          <Route path="/notification" element={<NotificationBell />} />
+          <Route path="/studentDisplay" element={<StudentDisplay />} />
+          <Route path="/teacherDisplay" element={<TeacherDisplay />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route path="/student/:id" element={<StudentPage />} />
-         
-        <Route path="/teacher/:id" element={<Ap/>} />
-
-
-        <Route path="/chat-rooms" element={<ChatRoomsList />} />
-        <Route path="/chat-room/:roomId" element={<ChatRoom />} />
-
-
+          <Route path="/teacher/:id" element={<Ap />} />
+          <Route path="/chat-rooms" element={<ChatRoomsList />} />
+          <Route path="/chat-room/:roomId" element={<ChatRoom />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -103,6 +71,83 @@ const App = () => {
 };
 
 export default App;
+
+// import React from 'react';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import './App.css';
+// import Index from './pages';
+// import Signup from './pages/signup';
+// import Login from './pages/login';
+// import Logout from './pages/logout';
+// import ProtectedRoute from './pages/auth/protectedRoute';
+// import TeacherSignup from './pages/adminpage/registerTeacher';
+// import StudentPage from './pages/studentspage/studentPage';
+// import Profile from './pages/studentspage/studentProfilepage';
+// import Admin from './pages/adminpage/admin';
+// import Ap from './pages/teacherspage/components/p';
+// import BiologyExam from './pages/teacherspage/biology/addBiologyExam';
+// import BioExamDisplay from './pages/teacherspage/biology/bioExamDisplay';
+// import BiologyAddEntrance from './pages/teacherspage/biology/addentranceExam';
+// import UploadNoteForm from './pages/teacherspage/notePage';
+// import NotesBySubject from './pages/teacherspage/noteDisplayPage';
+// import SidebarR from './pages/studentspage/studentSideBar';
+// import EntranceLayout from './pages/layout/entranceLayout';
+// import UploadPDF from './pages/teacherspage/pdfUploadPage';
+// import StudentPDFList from './pages/studentspage/dawnloadPage';
+// import NotificationBell from './pages/studentspage/notificationDisplaypage';
+// import ChatRoom from './pages/components/chatRoom';
+// import ChatRoomsList from './pages/components/chatRoomsList';
+// import Leaderboard from './pages/leaderBoard';
+// import EntranceLeaderboard from './pages/components/entranceLeaderBoard';
+// import QuizLeaderboard from './pages/components/quizLeaderboard';
+// import StudentDisplay from './pages/adminpage/studentDisplay';
+// import TeacherDisplay from './pages/adminpage/displayTeachers';
+
+// const App = () => {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//         {/* Public Routes */}
+//         <Route path="/" element={<Index />} />
+//         <Route path="/ap" element={<Ap />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/signup" element={<Signup />} />
+//         <Route path="/logout" element={<Logout />} />
+//         <Route path="/sign" element={<TeacherSignup />} />
+//         <Route path="/leaderboard" element={<Leaderboard />} />
+//         <Route path="/admin" element={<Admin />} />
+//         <Route path="/el" element={<EntranceLeaderboard />} />
+//         <Route path="/ql" element={<QuizLeaderboard />} />
+//         <Route path="/studentDisplay" element={<StudentDisplay />} /> {/* Added Route */}
+
+//         {/* Protected Routes */}
+//         <Route element={<ProtectedRoute />}>
+//           <Route path="/sidebar" element={<SidebarR />} />
+//           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
+//           <Route path="/BiologyExam" element={<BiologyExam />} />
+//           <Route path="/quiz" element={<BioExamDisplay />} />
+//           <Route path="/entrance/:subject/:year" element={<EntranceLayout />} />
+//           <Route path="/upload" element={<UploadNoteForm />} />
+//           <Route path="/notes/:subject/:grade" element={<NotesBySubject />} />
+//           <Route path="/pdf" element={<UploadPDF />} />
+//           <Route path="/download" element={<StudentPDFList />} />
+//           <Route path="/notification" element={<NotificationBell />} />
+//           <Route path="/teacherDisplay" element={<TeacherDisplay />} />
+//           <Route path="/profile/:id" element={<Profile />} />
+//           <Route path="/student/:id" element={<StudentPage />} />
+//           <Route path="/teacher/:id" element={<Ap />} />
+//           <Route path="/chat-rooms" element={<ChatRoomsList />} />
+//           <Route path="/chat-room/:roomId" element={<ChatRoom />} />
+//         </Route>
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// };
+
+// export default App;
+
+
+
 
 
 

@@ -7,6 +7,7 @@ const {
   getChatRoomById,
   joinChatRoom,
   addModerator,
+  countChatRooms,
 } = require("../controller/chatRoomController")
 const { sendMessage, getMessages, moderateMessage } = require("../controller/messageController")
 
@@ -16,6 +17,7 @@ router.get("/rooms", verifyToken, getAllChatRooms)
 router.get("/rooms/:roomId", verifyToken, getChatRoomById)
 router.post("/rooms/:roomId/join", verifyToken, joinChatRoom)
 router.post("/rooms/moderator", verifyToken, addModerator)
+router.get("/count", verifyToken, countChatRooms)
 
 // Message routes
 router.post("/messages", verifyToken, sendMessage)

@@ -1,7 +1,4 @@
-/* App.css */
-
-/* Body and Container */
-body {
+/* body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -15,7 +12,7 @@ body {
   width:1700px;
 }
 
-/* Header */
+
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -66,7 +63,7 @@ body {
   cursor: pointer;
 }
 
-/* Sidebar Styles */
+
 .profile-sidebar {
   position: fixed;
   top: 0;
@@ -106,14 +103,14 @@ body {
   transform: translateX(0);
 }
 
-/* Main Content */
+
 .main-content {
   flex-grow: 1;
   padding: 20px;
   z-index: 1;
 }
 
-/* Overlay */
+
 .sidebar-overlay {
   position: fixed;
   top: 0;
@@ -129,14 +126,14 @@ body {
   display: block;
 }
 
-/* Dashboard Content */
+
 .dashboard-content {
   display: flex;
   flex-direction: column;
   gap: 50px;
 }
 
-/* Dashboard Overview */
+
 .dashboard-overview {
   display:grid;
   grid-template-columns: auto auto auto ;
@@ -185,7 +182,7 @@ body {
   margin-top: 50px;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .app-header {
     flex-direction: column;
@@ -218,7 +215,7 @@ body {
   }
 }
 
-/* Additional Styles */
+
 .menu-button {
   background: none;
   border: none;
@@ -249,4 +246,4 @@ body {
     padding: 10px;
     background-color: #eee;
     margin-top: 20px;
-}
+} */

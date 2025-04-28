@@ -1,9 +1,17 @@
+const express = require('express');
+const router = express.Router();
+const {
+  signupController,
+  getAllStudents,
+  updateStudentPassword,
+  deleteStudent,
+  countStudents, // Import the new controller function
+} = require('../controller/signupUserController');
 
-// signupUser Router.js
+router.post('/', signupController);
+router.get('/', getAllStudents);
+router.put('/:id', updateStudentPassword);
+router.delete('/:id', deleteStudent);
+router.get('/count', countStudents); // Add the new route for counting students
 
-const express =require('express');
-const router =express.Router();
-const signupController =require('../controller/signupUserController');
-
-router.post('/', signupController); // This should match your request
 module.exports = router;

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './p.css';
 //import Sidebar from './Sidebar';
-import CourseForm from './CourseForm';
-import ShortNote from './ShortNote';
+
+
 import TipForm from './TipForm';
 import UploadPDF from '../pdfUploadPage';
-import ExamForm from './ExamForm';
+
 import UploadNoteForm from '../notePage';
 
 import BiologyAddEntrance from '../biology/addentranceExam';

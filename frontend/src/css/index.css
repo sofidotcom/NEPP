@@ -1,5 +1,4 @@
-/* index.css */
-.app {
+/* .app {
   font-family: "Poppins", sans-serif;
   background-color: #f5f7fa;
   padding: 0;
@@ -177,7 +176,6 @@
   background-color: #2980b9;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .card {
     width: 45%;
@@ -207,4 +205,4 @@
     width: 100%;
     text-align: center;
   }
-}
+} */

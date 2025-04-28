@@ -26,8 +26,7 @@
   font-weight: 700;
   text-align: center;
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+ 
   position: relative;
   padding-bottom: 0.75rem;
 }

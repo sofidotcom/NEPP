@@ -27,6 +27,9 @@ const SidebarR = ({ student }) => {
   const toggleChemGrades = () => setOpenChemGrades(!openChemGrades);
   const togglePhysicsGrades = () => setOpenPhysicsGrades(!openPhysicsGrades);
 
+  // Get userId from localStorage
+  const userId = localStorage.getItem('userId');
+
   return (
     <div className="sidebar-r">
       <div className="sidebar-r-profile-section">
@@ -264,6 +267,11 @@ const SidebarR = ({ student }) => {
       <div className="sidebar-r-section">
         <div className="sidebar-r-section-header">
           <Link to="/chat-rooms" className="sidebar-r-logoutt">Goto Chat</Link>
+        </div>
+      </div>
+      <div className="sidebar-r-section">
+        <div className="sidebar-r-section-header">
+          <Link to={`/profile/${userId}`} className="sidebar-r-logoutt">Profile</Link>
         </div>
       </div>
 

@@ -1,5 +1,4 @@
-// models/quizScoreModel.js
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const quizScoreSchema = new mongoose.Schema(
   {
@@ -7,34 +6,38 @@ const quizScoreSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "students",
       required: true,
+      index: true // Keep single index
     },
     subject: {
       type: String,
-      required: true,
+      required: true
     },
     score: {
       type: Number,
-      required: true,
+      required: true
     },
     totalQuestions: {
       type: Number,
-      required: true,
+      required: true
     },
     percentage: {
       type: Number,
-      required: true,
+      required: true
     },
     answers: {
       type: Map,
-      of: String,
+      of: String
     },
     date: {
       type: Date,
-      default: Date.now,
-    },
+      default: Date.now
+    }
   },
-  { timestamps: true },
-)
+  { timestamps: true }
+);
 
-const QuizScoreModel = mongoose.model("QuizScore", quizScoreSchema)
-module.exports = QuizScoreModel
+
+quizScoreSchema.indexes(); // Log existing indexes for verification
+
+const QuizScoreModel = mongoose.model("QuizScore", quizScoreSchema);
+module.exports = QuizScoreModel;

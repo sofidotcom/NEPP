@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import '../../css/teacherSignup.css'
 
-
 const TeacherSignup = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     subject: "",
@@ -41,7 +40,6 @@ const TeacherSignup = () => {
     <div className="signup-container">
       <div className="signup-card">
         <div className="signup-header">
-         
           <p>assigned teachers to get started</p>
         </div>
 
@@ -49,14 +47,14 @@ const TeacherSignup = () => {
 
         <form onSubmit={handleSubmit} className="signup-form">
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              placeholder="Enter your full name"
+              placeholder="Enter your name"
               required
             />
           </div>
@@ -104,8 +102,6 @@ const TeacherSignup = () => {
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
-
-        
       </div>
     </div>
   )

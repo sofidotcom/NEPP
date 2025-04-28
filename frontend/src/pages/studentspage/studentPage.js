@@ -54,9 +54,7 @@ const StudentPage = () => {
         <Outlet context={student}/> {/* Render child components (e.g., exams, courses) */}
       </div>
     <div className='userprofile'>
-      <h3>Profile</h3>
-        <p>Name: {student.name}</p>
-        <p>Phone: {student.phoneNumber}</p>
+      
         < NotificationBell />
 
         {/* <button className="logout-button" onClick={handleLogout}>logout</button> */}

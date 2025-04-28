@@ -5,6 +5,11 @@ exports.saveQuizScore = async (req, res) => {
     try {
         const { studentId, subject, level, score, totalQuestions, percentage, answers } = req.body;
 
+        // Validate required fields
+        if (!studentId || !subject || !level || score === undefined || totalQuestions === undefined || percentage === undefined) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
         // Save the quiz score
         const newScore = new QuizScore({
             studentId,
@@ -22,7 +27,9 @@ exports.saveQuizScore = async (req, res) => {
         if (percentage >= 70 && level < 5) {
             await StudentProgress.findOneAndUpdate(
                 { studentId },
-                { $addToSet: { [`subjectProgress.${subject}`]: level + 1 } },
+                { 
+                    $addToSet: { [`subjectProgress.${subject}`]: level + 1 }
+                },
                 { upsert: true, new: true }
             );
         }
