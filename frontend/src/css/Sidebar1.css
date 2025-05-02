@@ -1,0 +1,247 @@
+/* Transparent Modern Sidebar */
+.sidebar-r {
+  width: 300px;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(245, 247, 255, 0.92) 100%);
+  backdrop-filter: blur(12px);
+  color: #1f2937;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border-bottom-right-radius: 28px;
+  font-family: 'Inter', sans-serif;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><filter id="glow"><feGaussianBlur stdDeviation="2.5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><circle cx="15" cy="15" r="2" fill="#93c5fd" filter="url(#glow)"><animate attributeName="cx" from="15" to="285" dur="8s" repeatCount="indefinite" /><animate attributeName="cy" from="15" to="585" dur="8s" repeatCount="indefinite" /></circle><circle cx="60" cy="60" r="1.8" fill="#93c5fd" filter="url(#glow)"><animate attributeName="cx" from="60" to="240" dur="10s" repeatCount="indefinite" /><animate attributeName="cy" from="60" to="540" dur="10s" repeatCount="indefinite" /></circle></svg>');
+}
+
+.sidebar-r:hover {
+  box-shadow: 6px 0 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Section */
+.sidebar-r-profile-section {
+  padding: 20px 20px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-r-profile-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, transparent 80%);
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+
+.sidebar-r-profile-section:hover::before {
+  opacity: 0.9;
+}
+
+.sidebar-r-profile-section h3 {
+  margin: 14px 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e40af;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-r-profile-section h3:hover {
+  color: #2563eb;
+  transform: scale(1.05);
+}
+
+.sidebar-r-profile-section p {
+  margin: 0;
+  font-size: 16px;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Sidebar Section */
+.sidebar-r-section {
+  padding: 10px 20px;
+  flex-grow: 1;
+}
+
+/* Section Headers */
+.sidebar-r-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 15px 18px;
+  border-radius: 12px;
+  margin-bottom: 5px;
+  background: linear-gradient(90deg, rgba(147, 197, 253, 0.7) 0%, rgba(96, 165, 250, 0.7) 100%);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.sidebar-r-section-header:hover {
+  /* background: linear-gradient(90deg, rgba(147, 197, 253, 0.9) 0%, rgba(96, 165, 250, 0.9) 100%); */
+  color: #1e3a8a;
+  
+}
+
+.active {
+  /* background: linear-gradient(90deg, rgba(59, 130, 246, 0.85) 0%, rgba(37, 99, 235, 0.85) 100%); */
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  transform: translateX(5px);
+}
+
+/* Folder Items */
+.sidebar-r-folder-item {
+  background: transparent;
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  color: #1f2937;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Glowing Border Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+  }
+}
+
+.sidebar-r-folder-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.sidebar-r-folder-item:hover {
+  /* background: linear-gradient(90deg, #60a5fa, #93c5fd); */
+  color: #ffffff;
+}
+
+.sidebar-r-folder-item:hover::after {
+  left: 100%;
+}
+
+/* Sub-Section Headers */
+.sidebar-r-sub-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, rgba(203, 213, 224, 0.75) 0%, rgba(241, 245, 249, 0.75) 100%);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.sidebar-r-sub-section-header:hover {
+  background: linear-gradient(90deg, rgba(203, 213, 224, 0.95) 0%, rgba(241, 245, 249, 0.95) 100%);
+  
+}
+
+.sidebar-r-sub-section-header.active {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.85) 0%, rgba(37, 99, 235, 0.85) 100%);
+  color: #ffffff;
+ 
+}
+
+/* Sub-Folders */
+.sidebar-r-sub-folder {
+  padding-left: 28px;
+  padding-top: 10px;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+/* Navigation Links */
+.sidebar-r-navv {
+  color: #1f2937;
+  padding: 14px 16px;
+  font-size: 15px;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
+  transition: all 0.4s ease;
+  position: relative;
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.sidebar-r-navv:hover {
+  background: linear-gradient(90deg, #60a5fa, #93c5fd);
+  color: #ffffff;
+
+}
+
+/* Logout Button */
+.sidebar-r-logoutt {
+  margin-top: auto;
+  padding: 16px 20px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.4s ease;
+  border-radius: 0 0 0 14px;
+}
+
+.sidebar-r-logoutt:hover {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+  transform: scale(1.06);
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .sidebar-r {
+    width: 80%;
+    max-width: 280px;
+    transform: translateX(-100%);
+  }
+
+  .sidebar-r-open .sidebar-r {
+    transform: translateX(0);
+  }
+
+  .sidebar-r-folder-item,
+  .sidebar-r-navv,
+  .sidebar-r-logoutt {
+    font-size: 15px;
+  }
+
+  .sidebar-r-profile-section h3 {
+    font-size: 22px;
+  }
+
+  .sidebar-r-section-header {
+    font-size: 16px;
+  }
+}

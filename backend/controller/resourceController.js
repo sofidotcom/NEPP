@@ -1,12 +1,13 @@
-const PDF = require("../model/pdfModel")
+const PDF = require("../model/pdfModel");
 const Student = require("../model/signupUserModel"); 
 const Notification = require("../model/notificationModel");
 const PDFDownload = require("../model/pdfDownloadModel");
-const path = require("path")
-const fs = require("fs")
-const jwt = require("jsonwebtoken")
+const RecentActivity = require("../model/recentActivityModel");
+const path = require("path");
+const fs = require("fs");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
-// Upload PDF
 // Upload PDF
 exports.uploadPDF = async (req, res) => {
   try {
@@ -41,12 +42,18 @@ exports.uploadPDF = async (req, res) => {
       return res.status(403).json({ message: "Only teachers can upload PDFs" });
     }
 
+    // Validate userId as a valid ObjectId
+    if (!mongoose.isValidObjectId(decodedToken.userId)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
     // Create the PDF document object
     const pdfData = {
       title,
       subject,
       uploadedBy: decodedToken.userId,
       fileUrl: fileUrl,
+      filePath: req.file.path // Include filePath as per schema
     };
     
     // Save the PDF document in the database
@@ -54,36 +61,49 @@ exports.uploadPDF = async (req, res) => {
     const savedPDF = await newPDF.save();
     
     // Create a notification for this PDF upload
-   try {
-  // Find students who should receive this notification (e.g., by subject)
-  // This assumes you have a way to match students to subjects
-  // If you don't have this relationship yet, you can create a notification for all students
-  
-  // Option 1: Create notification for specific students by subject
-  // const students = await Student.find({ subjects: { $in: [subject] } });
-  // const studentIds = students.map(student => student._id);
-  
-  // Option 2: Create a general notification without specific recipients
-  const notification = new Notification({
-    title: "New Study Material Available",
-    message: `A new document "${title}" has been uploaded for ${subject}`,
-    type: "pdf_upload",
-    relatedItem: {
-      itemId: savedPDF._id,
-      itemType: "PDF"
-    },
-    subject: subject,
-    readBy: [], // Initialize with empty array
-    // recipients: studentIds // Uncomment if using Option 1
-  });
-  
-  await notification.save();
-  console.log("Notification created for new PDF upload");
-} catch (notificationError) {
-  console.error("Error creating notification:", notificationError);
-  // Continue with the response even if notification creation fails
-}
+    try {
+      // Find students who should receive this notification (e.g., by subject)
+      // Option 1: Create notification for specific students by subject
+      // const students = await Student.find({ subjects: { $in: [subject] } });
+      // const studentIds = students.map(student => student._id);
+      
+      // Option 2: Create a general notification without specific recipients
+      const notification = new Notification({
+        title: "New Study Material Available",
+        message: `A new document "${title}" has been uploaded for ${subject}`,
+        type: "pdf_upload",
+        relatedItem: {
+          itemId: savedPDF._id,
+          itemType: "PDF"
+        },
+        subject: subject,
+        readBy: [], // Initialize with empty array
+        // recipients: studentIds // Uncomment if using Option 1
+      });
+      
+      await notification.save();
+      console.log("Notification created for new PDF upload");
+    } catch (notificationError) {
+      console.error("Error creating notification:", notificationError);
+      // Continue with the response even if notification creation fails
+    }
     
+    // Save recent activity
+    try {
+      const activity = new RecentActivity({
+        teacherId: new mongoose.Types.ObjectId(decodedToken.userId),
+        activityType: "pdf_added",
+        description: `Uploaded a new PDF: "${title}" for ${subject}`,
+        resourceId: savedPDF._id,
+      });
+      
+      await activity.save();
+      console.log("Recent activity logged for PDF upload");
+    } catch (activityError) {
+      console.error("Error logging recent activity:", activityError);
+      // Continue with the response even if activity logging fails
+    }
+
     res.status(201).json({
       message: "PDF uploaded successfully",
       pdf: {
@@ -99,8 +119,8 @@ exports.uploadPDF = async (req, res) => {
     res.status(500).json({ message: "Error uploading PDF", error: error.message });
   }
 };
-// Download PDF by ID (unchanged)
 
+// Download PDF by ID
 exports.downloadPDF = async (req, res) => {
   try {
     const pdf = await PDF.findById(req.params.id);

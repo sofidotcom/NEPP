@@ -24,7 +24,7 @@ const studentSchema = new mongoose.Schema({
         enum: ['student', 'super_admin'],
         default: 'student'
     }
-});
+}, { timestamps: true }); // Enable createdAt and updatedAt
 
 const StudentModel = mongoose.model('students', studentSchema);
 module.exports = StudentModel;

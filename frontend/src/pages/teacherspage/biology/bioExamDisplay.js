@@ -258,7 +258,7 @@ const BioExamDisplay = () => {
 
     return (
         <>
-            <SidebarR />
+            {/* <SidebarR /> */}
             <div className="quiz-container">
                 <div className="sticky-header">
                     <div className="quiz-title">{subject.charAt(0).toUpperCase() + subject.slice(1)} Quiz</div>

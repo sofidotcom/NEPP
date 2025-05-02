@@ -4,7 +4,7 @@ import './p.css';
 //import Sidebar from './Sidebar';
 
 
-import TipForm from './TipForm';
+// import TipForm from './TipForm';
 import UploadPDF from '../pdfUploadPage';
 
 import UploadNoteForm from '../notePage';
@@ -12,7 +12,7 @@ import UploadNoteForm from '../notePage';
 import BiologyAddEntrance from '../biology/addentranceExam';
 import BiologyExam from '../biology/addBiologyExam';
 // import QuizForm from './components/QuizForm';
-import ProgressViewer from './ProgressViewer';
+// import progressViewer from './progressViewer';;
 import { FaUserCircle, FaBars, FaSearch, FaCalendarAlt, FaLightbulb } from 'react-icons/fa';
 import ChatRoom from '../../components/chatRoom';
 import ChatRoomsList from '../../components/chatRoomsList';
@@ -67,11 +67,11 @@ function Ap() {
           
           {activeForm === 'note' && <UploadNoteForm />}
           {activeForm === 'pdf' && <UploadPDF/>}
-          {activeForm === 'tip' && < TipForm />}
+          {/* {activeForm === 'tip' && < TipForm />} */}
            {activeForm === 'chat' && < ChatRoomsList/>}
           {activeForm === 'exam' && <BiologyAddEntrance/>}
           {activeForm === 'quiz' && <BiologyExam/>}
-          {activeForm === 'progress' && <ProgressViewer />}
+          {/* {activeForm === 'progress' && <ProgressViewer />} */}
 
           {!activeForm && (
             <div className="dashboard-overview">

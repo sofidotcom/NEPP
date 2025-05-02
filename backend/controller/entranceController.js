@@ -1,5 +1,6 @@
 const EntranceModel = require("../model/addEntranceModel");
-
+const RecentActivity = require("../model/recentActivityModel");
+const mongoose = require("mongoose");
 
 exports.createEntrance = async (req, res) => {
   try {
@@ -8,6 +9,11 @@ exports.createEntrance = async (req, res) => {
 
     const teacherSubject = req.user.subject;
     const teacherId = req.user.userId;
+
+    // Validate teacherId
+    if (!mongoose.isValidObjectId(teacherId)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
 
     const { questionText, correctAnswer, year, grade } = req.body;
 
@@ -40,17 +46,34 @@ exports.createEntrance = async (req, res) => {
       grade,
     });
 
-    await newEntrance.save();
+    const savedEntrance = await newEntrance.save();
+
+    // Save recent activity
+    try {
+      const activity = new RecentActivity({
+        teacherId: new mongoose.Types.ObjectId(teacherId),
+        activityType: "quiz_added",
+        description: `Added a new entrance question for ${teacherSubject} (Grade ${grade}, Year ${year})`,
+        resourceId: savedEntrance._id,
+      });
+      
+      await activity.save();
+      console.log("Recent activity logged for entrance question");
+    } catch (activityError) {
+      console.error("Error logging recent activity:", activityError);
+    }
+
     res.status(200).json({ message: "Successfully added the exam question" });
   } catch (error) {
     console.error("Error adding question:", error);
     res.status(500).json({ message: "Failed to add the question" });
   }
 };
+
 exports.getEntrance = async (req, res) => {
   try {
-    const { subject, year } = req.params; // Now subject comes before year
-    const exams = await EntranceModel.find({ subject, year }); // Query matches the order
+    const { subject, year } = req.params;
+    const exams = await EntranceModel.find({ subject, year });
     res.json(exams);
   } catch (error) {
     console.error("Error retrieving exams:", error);

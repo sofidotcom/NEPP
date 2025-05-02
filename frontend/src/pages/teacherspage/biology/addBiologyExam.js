@@ -44,8 +44,15 @@ const BiologyExam = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
+
         try {
-            const response = await axios.post('/api/v1/quiz', formData);
+            const response = await axios.post('/api/v1/quiz', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}` // ✅ Send token for createdBy
+                }
+            });
+
             setMessage(response.data.message);
             setFormData(prev => ({
                 ...prev,
@@ -57,13 +64,15 @@ const BiologyExam = () => {
             navigator('/ap');
         } catch (error) {
             setMessage('Failed to add question. Please try again.');
+            console.error('Submit error:', error);
         }
     };
 
     return (
         <div className="container">
-            <h1>Add a New Question</h1>
+            <h1>Add a New Biology Exam Question</h1>
             {message && <p className="message">{message}</p>}
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Subject:</label>
@@ -76,19 +85,20 @@ const BiologyExam = () => {
                         required
                     />
                 </div>
+
                 <div>
-                    <label>
-                        Level (1-5):
-                        <input 
-                            type="number" 
-                            name="level" 
-                            min="1" 
-                            max="5" 
-                            value={formData.level}
-                            onChange={handleChange}
-                        />
-                    </label>
+                    <label>Level (1-5):</label>
+                    <input
+                        type="number"
+                        name="level"
+                        min="1"
+                        max="5"
+                        value={formData.level}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
+
                 <div>
                     <label>Question:</label>
                     <textarea
@@ -98,6 +108,7 @@ const BiologyExam = () => {
                         required
                     />
                 </div>
+
                 <div>
                     <label>Options:</label>
                     {formData.options.map((option, index) => (
@@ -112,6 +123,7 @@ const BiologyExam = () => {
                         </div>
                     ))}
                 </div>
+
                 <div>
                     <label>Correct Answer:</label>
                     <input
@@ -122,6 +134,7 @@ const BiologyExam = () => {
                         required
                     />
                 </div>
+
                 <div>
                     <label>Explanation:</label>
                     <textarea
@@ -131,6 +144,7 @@ const BiologyExam = () => {
                         required
                     />
                 </div>
+
                 <button type="submit">Add Question</button>
             </form>
         </div>

@@ -11,6 +11,7 @@ import StudentPage from './pages/studentspage/studentPage';
 import Profile from './pages/studentspage/studentProfilepage';
 import Admin from './pages/adminpage/admin';
 import Ap from './pages/teacherspage/components/p';
+import TeacherBoard from './pages/teacherspage/teacherDashboard';
 import BiologyExam from './pages/teacherspage/biology/addBiologyExam';
 import BioExamDisplay from './pages/teacherspage/biology/bioExamDisplay';
 import BiologyAddEntrance from './pages/teacherspage/biology/addentranceExam';
@@ -35,7 +36,6 @@ const App = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Index />} />
-        <Route path="/ap" element={<Ap />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
@@ -44,9 +44,10 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/el" element={<EntranceLeaderboard />} />
         <Route path="/ql" element={<QuizLeaderboard />} />
-
+        {/* <Route path="/teacherboard" element={<TeacherBoard />} /> */}
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
+        
           <Route path="/sidebar" element={<SidebarR />} />
           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
           <Route path="/BiologyExam" element={<BiologyExam />} />
@@ -61,7 +62,7 @@ const App = () => {
           <Route path="/teacherDisplay" element={<TeacherDisplay />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/student/:id" element={<StudentPage />} />
-          <Route path="/teacher/:id" element={<Ap />} />
+          <Route path="/teacher/:id" element={<TeacherBoard />} />
           <Route path="/chat-rooms" element={<ChatRoomsList />} />
           <Route path="/chat-room/:roomId" element={<ChatRoom />} />
         </Route>

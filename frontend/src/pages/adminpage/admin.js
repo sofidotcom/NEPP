@@ -3,10 +3,27 @@ import axios from "axios";
 import "../../css/admin.css";
 import { Link } from 'react-router-dom';
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
 
 // Register chart.js components
-ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function Admin() {
   // State for Sidebar Active Button
@@ -29,12 +46,22 @@ function Admin() {
 
   // State for chart data
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+  const [chartDataError, setChartDataError] = useState(null);
 
   // Fetch student count
   useEffect(() => {
     const fetchStudentCount = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setStudentCountError("Please log in to view student count");
+        setStudentCountLoading(false);
+        return;
+      }
+
       try {
-        const res = await axios.get("/api/v1/signup/count");
+        const res = await axios.get("/api/v1/signup/count", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = res.data;
         if (data.success) {
           setStudentCount(data.count);
@@ -42,7 +69,12 @@ function Admin() {
           throw new Error("Failed to fetch student count");
         }
       } catch (err) {
-        setStudentCountError(err.message);
+        if (err.response && err.response.status === 401) {
+          setStudentCountError("Session expired. Please log in again.");
+          window.location.href = "/login";
+        } else {
+          setStudentCountError(err.message);
+        }
       } finally {
         setStudentCountLoading(false);
       }
@@ -54,8 +86,17 @@ function Admin() {
   // Fetch teacher count
   useEffect(() => {
     const fetchTeacherCount = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setTeacherCountError("Please log in to view teacher count");
+        setTeacherCountLoading(false);
+        return;
+      }
+
       try {
-        const res = await axios.get("/api/v1/teacher/count");
+        const res = await axios.get("/api/v1/teacher/count", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = res.data;
         if (data.success) {
           setTeacherCount(data.count);
@@ -63,7 +104,12 @@ function Admin() {
           throw new Error("Failed to fetch teacher count");
         }
       } catch (err) {
-        setTeacherCountError(err.message);
+        if (err.response && err.response.status === 401) {
+          setTeacherCountError("Session expired. Please log in again.");
+          window.location.href = "/login";
+        } else {
+          setTeacherCountError(err.message);
+        }
       } finally {
         setTeacherCountLoading(false);
       }
@@ -75,8 +121,17 @@ function Admin() {
   // Fetch chat room count
   useEffect(() => {
     const fetchChatRoomCount = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setChatRoomCountError("Please log in to view chat room count");
+        setChatRoomCountLoading(false);
+        return;
+      }
+
       try {
-        const res = await axios.get("/api/v1/chat/count");
+        const res = await axios.get("/api/v1/chat/count", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         const data = res.data;
         if (data.success) {
           setChatRoomCount(data.count);
@@ -84,7 +139,12 @@ function Admin() {
           throw new Error("Failed to fetch chat room count");
         }
       } catch (err) {
-        setChatRoomCountError(err.message);
+        if (err.response && err.response.status === 401) {
+          setChatRoomCountError("Session expired. Please log in again.");
+          window.location.href = "/login";
+        } else {
+          setChatRoomCountError(err.message);
+        }
       } finally {
         setChatRoomCountLoading(false);
       }
@@ -96,24 +156,46 @@ function Admin() {
   // Fetch chart data
   useEffect(() => {
     const fetchChartData = async () => {
-      try {
-        const res = await axios.get("https://your-api-endpoint.com/chartData");
-        const data = res.data;
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setChartDataError("Please log in to view chart data");
+        return;
+      }
 
-        setChartData({
-          labels: data.labels,
-          datasets: [
-            {
-              label: "Total Users",
-              data: data.values,
-              fill: false,
-              borderColor: "rgba(75, 192, 192, 1)",
-              tension: 0.1,
-            },
-          ],
+      try {
+        const currentYear = new Date().getFullYear();
+        const res = await axios.get(`/api/v1/chartData?year=${currentYear}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
+        const data = res.data;
+        if (data.success) {
+          if (data.values.some(v => v > 0)) {
+            setChartData({
+              labels: data.labels,
+              datasets: [
+                {
+                  label: "Total Students",
+                  data: data.values,
+                  fill: false,
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  tension: 0.1,
+                },
+              ],
+            });
+          } else {
+            setChartDataError("No student registrations found for this year");
+          }
+        } else {
+          throw new Error("Failed to fetch chart data");
+        }
       } catch (err) {
-        console.error("Failed to fetch chart data", err);
+        if (err.response && err.response.status === 401) {
+          setChartDataError("Session expired. Please log in again.");
+          window.location.href = "/login";
+        } else {
+          setChartDataError(err.message || "Failed to fetch chart data");
+          console.error("Chart data error:", err);
+        }
       }
     };
 
@@ -155,9 +237,9 @@ function Admin() {
           </button>
           <button
             className={activeSidebar === "Question management" ? "active" : ""}
-            onClick={() => handleSidebarClick("Question  management")}
+            onClick={() => handleSidebarClick("Question management")}
           >
-            Question  management
+            Question management
           </button>
           <button
             className={activeSidebar === "Settings" ? "active" : ""}
@@ -199,20 +281,36 @@ function Admin() {
           <h2>Analytics Overview</h2>
           <div className="analytics-cards">
             <div className="card">
-              Total students: {studentCountLoading ? "Loading..." : studentCountError ? "Error" : studentCount}
+              Total students: {studentCountLoading ? "Loading..." : studentCountError ? studentCountError : studentCount}
             </div>
             <div className="card">Active students: 938</div>
             <div className="card">
-              Total teachers: {teacherCountLoading ? "Loading..." : teacherCountError ? "Error" : teacherCount}
+              Total teachers: {teacherCountLoading ? "Loading..." : teacherCountError ? teacherCountError : teacherCount}
             </div>
             <div className="card">Total questions posted: 1000</div>
             <div className="card">Total tips: 8789</div>
             <div className="card">
-              Total chatrooms: {chatRoomCountLoading ? "Loading..." : chatRoomCountError ? "Error" : chatRoomCount}
+              Total chatrooms: {chatRoomCountLoading ? "Loading..." : chatRoomCountError ? chatRoomCountError : chatRoomCount}
             </div>
           </div>
           <div className="analytics-chart">
-            {/* <Line data={chartData.data} /> */}
+            {chartDataError ? (
+              <p>Error loading chart: {chartDataError}</p>
+            ) : (
+              <Line
+                data={chartData}
+                options={{
+                  scales: {
+                    y: {
+                      ticks: {
+                        stepSize: 10, // Set y-axis interval to 10
+                      },
+                      beginAtZero: true, // Start y-axis at 0
+                    },
+                  },
+                }}
+              />
+            )}
           </div>
         </section>
 

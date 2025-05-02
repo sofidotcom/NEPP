@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../css/Sidebar.css';
+import '../../css/Sidebar1.css';
 import { Link } from 'react-router-dom';
 
 const SidebarR = ({ student }) => {

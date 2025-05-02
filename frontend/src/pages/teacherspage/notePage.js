@@ -38,11 +38,17 @@ const UploadNoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+
     try {
-      const response = await axios.post('/api/v1/notes', formData);
+      const response = await axios.post('/api/v1/notes', formData, {
+        headers: {
+          Authorization: `Bearer ${token}` // ✅ Include token
+        }
+      });
       setMessage('Note created successfully!');
-      
-      // Clear form fields after successful submission, keeping subject
+
+      // Clear form except subject
       setFormData(prev => ({
         title: '',
         description: '',
@@ -50,7 +56,7 @@ const UploadNoteForm = () => {
         grade: '9',
         chapter: ''
       }));
-      
+
       console.log(response.data);
     } catch (error) {
       setMessage('Error creating note');
@@ -115,7 +121,11 @@ const UploadNoteForm = () => {
         </div>
         <button type="submit">Add Note</button>
       </form>
-      {message && <p className={message.includes('success') ? 'success-message' : 'error-message'}>{message}</p>}
+      {message && (
+        <p className={message.includes('success') ? 'success-message' : 'error-message'}>
+          {message}
+        </p>
+      )}
     </div>
   );
 };

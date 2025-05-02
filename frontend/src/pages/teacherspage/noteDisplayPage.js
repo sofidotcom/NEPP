@@ -117,7 +117,7 @@ const NotesBySubject = () => {
         <Menu size={24} />
       </button>
 
-      <SidebarR />
+      {/* <SidebarR /> */}
 
       <div className="ns-notes-container">
         <div className="ns-search-bar">

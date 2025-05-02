@@ -1,6 +1,10 @@
-const quizController = require('../controller/quizeController');
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-router.post('/', quizController.addQuize);
+const quizController = require("../controller/quizeController");
+const verifyToken = require("../middleware/authMiddleware");
+
+// ✅ Leave route as is, just add token verification
+router.post('/', verifyToken, quizController.addQuize);
 router.get('/', quizController.getQuize);
+
 module.exports = router;

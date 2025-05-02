@@ -1,10 +1,9 @@
 const express = require('express');
 const noteController = require('../controller/noteController');
+const verifyToken = require('../middleware/authMiddleware'); // ✅ Import middleware
 const router = express.Router();
-// Route to create a new note
-router.post('/', noteController.createNote);
 
-// Route to get all notes
+router.post('/', verifyToken, noteController.createNote);  // ✅ Add token check
 router.get('/', noteController.getAllNotes);
 
 module.exports = router;
