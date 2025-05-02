@@ -1,3 +1,4 @@
+// File: noteDisplayPage.js
 "use client"
 
 import { useEffect, useState, useRef } from "react"
@@ -23,7 +24,12 @@ const NotesBySubject = () => {
       try {
         const gradeValue = grade?.replace(/\D/g, "")
         console.log(`Fetching notes with subject=${subject} and grade=${gradeValue}`)
-        const response = await axios.get(`/api/v1/notes?subject=${subject}&grade=${gradeValue}`)
+        const response = await axios.get(`/api/v1/notes?subject=${subject}&grade=${gradeValue}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Cache-Control': 'no-cache'
+          }
+        })
         console.log("API Response:", response.data)
 
         const notesData = response.data
@@ -112,12 +118,11 @@ const NotesBySubject = () => {
 
   return (
     <div className={`ns-page-container ${sidebarOpen ? "ns-sidebar-open" : ""}`}>
-      {/* Mobile sidebar toggle */}
       <button className="ns-sidebar-toggle" onClick={toggleSidebar}>
         <Menu size={24} />
       </button>
 
-      {/* <SidebarR /> */}
+      <SidebarR />
 
       <div className="ns-notes-container">
         <div className="ns-search-bar">

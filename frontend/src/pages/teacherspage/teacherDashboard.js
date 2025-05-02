@@ -76,7 +76,6 @@ const DashboardContent = ({ setQuickActionView }) => {
             'Cache-Control': 'no-cache'
           }
         });
-        console.log('Frontend received activities:', response.data);
         setActivities(response.data);
         setLoading(false);
       } catch (err) {
@@ -296,122 +295,85 @@ const DashboardContent = ({ setQuickActionView }) => {
   );
 };
 
-// ... (Rest of the file remains unchanged)
-
 const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
-  const [exams, setExams] = useState([]);
-  const [scores, setScores] = useState([]);
+  const [recentExams, setRecentExams] = useState([]);
+  const [topScorersByYear, setTopScorersByYear] = useState({});
+  const [overallTopScorers, setOverallTopScorers] = useState([]);
+  const [subjectData, setSubjectData] = useState({ activities: [], scores: [] });
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const fetchExams = async () => {
+  const fetchExamData = async () => {
     try {
-      const response = await axios.get('/api/v1/entrance', {
-        headers: { Authorization: ` Bearer ${localStorage.getItem('token')}` },
-      });
-      setExams(response.data.filter((exam) => exam.subject === assignedSubject));
-    } catch (error) {
-      console.error('Error fetching exams:', error);
-    }
-  };
+      setLoading(true);
+      setError(null);
 
-  const fetchScores = async () => {
-    try {
-      const response = await axios.get('/api/v1/score', {
+      // Fetch recent exams
+      const recentExamsResponse = await axios.get(`/api/v1/exam-analysis/exams?subject=${assignedSubject}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      setScores(response.data);
-    } catch (error) {
-      console.error('Error fetching scores:', error);
+      setRecentExams(recentExamsResponse.data);
+
+      // Fetch top scorers by year
+      const topScorersByYearResponse = await axios.get(`/api/v1/exam-analysis/top-scorers-year?subject=${assignedSubject}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setTopScorersByYear(topScorersByYearResponse.data);
+
+      // Fetch overall top scorers
+      const overallTopScorersResponse = await axios.get(`/api/v1/exam-analysis/top-scorers-overall?subject=${assignedSubject}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setOverallTopScorers(overallTopScorersResponse.data);
+
+      // Fetch subject activities and scores
+      const subjectDataResponse = await axios.get(`/api/v1/exam-analysis/subject-data?subject=${assignedSubject}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setSubjectData(subjectDataResponse.data);
+
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching exam data:', err);
+      setError('Failed to load exam data. Please try again.');
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchExams();
-    fetchScores();
+    if (assignedSubject) {
+      fetchExamData();
+    }
   }, [assignedSubject]);
 
-  const subjectExams = exams;
-  const recentExams = [...subjectExams]
-    .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))
-    .slice(0, 3);
-
-  const years = [...new Set(subjectExams.map((exam) => exam.year))].sort();
-  const topScorersByYear = years.map((year) => {
-    const yearExams = subjectExams.filter((exam) => exam.year === year);
-    const yearScores = scores
-      .filter((score) => yearExams.some((exam) => exam._id === score.examId))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
-      .map((score) => ({
-        ...score,
-        examTitle: subjectExams.find((exam) => exam._id === score.examId)?.title,
-      }));
-    return { year, scores: yearScores };
-  });
-
-  const examsByYear = years.reduce((acc, year) => {
-    acc[year] = subjectExams.filter((exam) => exam.year === year).length;
-    return acc;
-  }, {});
-
-  const pieChartData = {
-    labels: Object.keys(examsByYear),
-    data: Object.values(examsByYear),
-  };
-
-  const filteredExams = subjectExams.filter(
-    (exam) =>
-      exam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      exam.year.includes(searchQuery)
-  );
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/api/v1/entrance/${id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      setExams(exams.filter((exam) => exam._id !== id));
-      setScores(scores.filter((score) => score.examId !== id));
-    } catch (error) {
-      console.error('Error deleting exam:', error);
-    }
-  };
-
-  const handleUpdate = (exam) => {
-    setQuickActionView(['newExam', { initialData: exam }]);
-  };
-
-  const ExamsPieChart = () => {
+  const YearPieChart = ({ year, scorers, chartId }) => {
     useEffect(() => {
-      const ctx = document.getElementById('examsPieChart')?.getContext('2d');
+      const ctx = document.getElementById(chartId)?.getContext('2d');
       if (!ctx) return;
 
       const chart = new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: pieChartData.labels,
-          datasets: [
-            {
-              label: 'Exams',
-              data: pieChartData.data,
-              backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
-              borderColor: ['#ffffff'],
-              borderWidth: 2,
-            },
-          ],
+          labels: scorers.map(scorer => scorer.name),
+          datasets: [{
+            label: `Top Scorers ${year}`,
+            data: scorers.map(scorer => scorer.percentage),
+            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+            borderColor: ['#ffffff'],
+            borderWidth: 2,
+          }],
         },
         options: {
           responsive: true,
           plugins: {
             legend: {
               position: 'bottom',
-              labels: {
-                font: { size: 14 },
-              },
+              labels: { font: { size: 14 } },
             },
             tooltip: {
               callbacks: {
-                label: (context) => `${context.label}: ${context.raw} exams`,
+                label: (context) => `${context.label}: ${context.raw.toFixed(2)}%`,
               },
             },
           },
@@ -421,10 +383,99 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
       return () => {
         chart.destroy();
       };
-    }, []);
+    }, [scorers]);
 
-    return <canvas id="examsPieChart" aria-label={`Pie chart of ${assignedSubject} exams by year`} />;
+    return <canvas id={chartId} aria-label={`Pie chart of top scorers for ${year}`} />;
   };
+
+  const OverallPieChart = ({ scorers, chartId }) => {
+    useEffect(() => {
+      const ctx = document.getElementById(chartId)?.getContext('2d');
+      if (!ctx) return;
+
+      const chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: scorers.map(scorer => scorer.name),
+          datasets: [{
+            label: 'Overall Top Scorers',
+            data: scorers.map(scorer => scorer.percentage),
+            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+            borderColor: ['#ffffff'],
+            borderWidth: 2,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { font: { size: 14 } },
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.label}: ${context.raw.toFixed(2)}%`,
+              },
+            },
+          },
+        },
+      });
+
+      return () => {
+        chart.destroy();
+      };
+    }, [scorers]);
+
+    return <canvas id={chartId} aria-label="Pie chart of overall top scorers" />;
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/v1/entrance/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      setRecentExams(recentExams.filter(exam => exam._id !== id));
+      setSubjectData({
+        ...subjectData,
+        activities: subjectData.activities.filter(activity => activity.resourceId !== id),
+        scores: subjectData.scores.filter(score => score.examId !== id),
+      });
+    } catch (error) {
+      console.error('Error deleting exam:', error);
+    }
+  };
+
+  const handleUpdate = (exam) => {
+    setQuickActionView(['newExam', { initialData: exam }]);
+  };
+
+  if (loading) {
+    return (
+      <div className="content-section">
+        <h2>{assignedSubject} Exams</h2>
+        <div className="flex justify-center py-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="content-section">
+        <h2>{assignedSubject} Exams</h2>
+        <div className="text-center py-4">
+          <p className="text-red-500">{error}</p>
+          <button
+            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={fetchExamData}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="content-section">
@@ -443,10 +494,9 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
               {recentExams.length > 0 ? (
                 recentExams.map((exam) => (
                   <div key={exam._id} className="recent-exam-card" tabIndex="0">
-                    <h4>{exam.title}</h4>
-                    <p><strong>Year:</strong> {exam.year}</p>
-                    <p><strong>Subject:</strong> {exam.subject}</p>
-                    <p><strong>Uploaded:</strong> {new Date(exam.uploadedAt).toLocaleDateString()}</p>
+                    <h4>{exam.description}</h4>
+                    <p><strong>Subject:</strong> {assignedSubject}</p>
+                    <p><strong>Uploaded:</strong> {new Date(exam.createdAt).toLocaleDateString()}</p>
                   </div>
                 ))
               ) : (
@@ -455,47 +505,68 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
             </div>
           </div>
           <div className="analysis-section top-scorers">
-            <h3>Highest Scorers by Year</h3>
-            {topScorersByYear.length > 0 ? (
-              topScorersByYear.map((yearData) => (
-                <div key={yearData.year} className="year-scorers">
-                  <h4>Year {yearData.year}</h4>
-                  {yearData.scores.length > 0 ? (
-                    <table className="scorers-table">
-                      <thead>
-                        <tr>
-                          <th>Student</th>
-                          <th>Exam</th>
-                          <th>Score</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {yearData.scores.map((score, index) => (
-                          <tr key={index}>
-                            <td>{score.studentName}</td>
-                            <td>{score.examTitle}</td>
-                            <td>{score.score}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+            <h3>Top Scorers by Year</h3>
+            <div className="pie-charts-grid">
+              {['2014', '2015', '2016'].map((year) => (
+                <div key={year} className="year-pie-chart">
+                  <h4>Year {year}</h4>
+                  {topScorersByYear[year]?.length > 0 ? (
+                    <YearPieChart
+                      year={year}
+                      scorers={topScorersByYear[year]}
+                      chartId={`yearPieChart${year}`}
+                    />
                   ) : (
-                    <p>No {assignedSubject} scores available for {yearData.year}.</p>
+                    <p>No scorers available for {year}</p>
                   )}
                 </div>
-              ))
-            ) : (
-              <p>No {assignedSubject} scorer data available.</p>
-            )}
+              ))}
+            </div>
           </div>
-          <div className="analysis-section exams-distribution">
-            <h3>Exams by Year</h3>
-            {pieChartData.labels.length > 0 ? (
+          <div className="analysis-section overall-scorers">
+            <h3>Overall Top Scorers</h3>
+            {overallTopScorers.length > 0 ? (
               <div className="pie-chart-container">
-                <ExamsPieChart />
+                <OverallPieChart
+                  scorers={overallTopScorers}
+                  chartId="overallPieChart"
+                />
               </div>
             ) : (
-              <p>No {assignedSubject} exams available.</p>
+              <p>No overall scorers available</p>
+            )}
+          </div>
+        </div>
+        <div className="subject-data-section">
+          <h3>Subject Scores</h3>
+          <div className="scores-section">
+            {subjectData.scores.length > 0 ? (
+              <table className="scores-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Year</th>
+                    <th>Score</th>
+                    <th>Total Questions</th>
+                    <th>Percentage</th>
+                    <th>Submitted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subjectData.scores.map((score) => (
+                    <tr key={score._id}>
+                      <td>{score.studentName}</td>
+                      <td>{score.year}</td>
+                      <td>{score.score}</td>
+                      <td>{score.totalQuestions}</td>
+                      <td>{score.percentage.toFixed(2)}%</td>
+                      <td>{new Date(score.submittedAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No scores available</p>
             )}
           </div>
         </div>
@@ -503,7 +574,7 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
           <div className="table-controls">
             <input
               type="text"
-              placeholder="Search by title or year..."
+              placeholder="Search activities..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
@@ -512,42 +583,40 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
           <table className="exams-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Year</th>
+                <th>Description</th>
                 <th>Subject</th>
+                <th>Created At</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredExams.length > 0 ? (
-                filteredExams.map((exam) => (
+              {recentExams
+                .filter((exam) =>
+                  exam.description.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .map((exam) => (
                   <tr key={exam._id}>
-                    <td>{exam.title}</td>
-                    <td>{exam.year}</td>
-                    <td>{exam.subject}</td>
+                    <td>{exam.description}</td>
+                    <td>{assignedSubject}</td>
+                    <td>{new Date(exam.createdAt).toLocaleDateString()}</td>
                     <td>
                       <button
                         className="action-button update"
                         onClick={() => handleUpdate(exam)}
-                        aria-label={`Update ${exam.title}`}
+                        aria-label={`Update ${exam.description}`}
                       >
                         Update
                       </button>
                       <button
                         className="action-button delete"
                         onClick={() => handleDelete(exam._id)}
-                        aria-label={`Delete ${exam.title}`}
+                        aria-label={`Delete ${exam.description}`}
                       >
                         Delete
                       </button>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4">No {assignedSubject} exams found.</td>
-                </tr>
-              )}
+                ))}
             </tbody>
           </table>
         </div>
@@ -555,7 +624,6 @@ const ExamsContent = ({ setQuickActionView, assignedSubject }) => {
     </div>
   );
 };
-
 const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
   const [shortnotes, setShortnotes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -565,33 +633,43 @@ const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
   const fetchShortnotes = async () => {
     try {
       const response = await axios.get('/api/v1/notes', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Cache-Control': 'no-cache'
+        },
       });
-      setShortnotes(response.data.filter((note) => note.subject === assignedSubject));
+      const filteredNotes = response.data.filter((note) => note.subject === assignedSubject);
+      setShortnotes(filteredNotes);
     } catch (error) {
       console.error('Error fetching shortnotes:', error);
     }
   };
 
   useEffect(() => {
-    fetchShortnotes();
+    if (assignedSubject) {
+      fetchShortnotes();
+    }
   }, [assignedSubject]);
 
   const subjectShortnotes = shortnotes;
   const recentShortnotes = [...subjectShortnotes]
-    .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt))
-    .slice(0, 3);
+    .sort((a, b) => {
+      const dateA = a.uploadedAt ? new Date(a.uploadedAt) : new Date(0);
+      const dateB = b.uploadedAt ? new Date(b.uploadedAt) : new Date(0);
+      return dateB - dateA;
+    })
+    .slice(0, 4);
 
   const filteredShortnotes = subjectShortnotes
     .filter((note) =>
-      (note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       note.chapter.toLowerCase().includes(searchQuery.toLowerCase())) &&
+      (note.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       note.chapter?.toLowerCase().includes(searchQuery.toLowerCase())) &&
       (filterGrade ? note.grade === filterGrade : true)
     )
     .sort((a, b) => {
-      if (sortBy === 'title') return a.title.localeCompare(b.title);
-      if (sortBy === 'chapter') return a.chapter.localeCompare(b.chapter);
-      if (sortBy === 'grade') return a.grade.localeCompare(b.grade);
+      if (sortBy === 'title') return a.title?.localeCompare(b.title) || 0;
+      if (sortBy === 'chapter') return a.chapter?.localeCompare(b.chapter) || 0;
+      if (sortBy === 'grade') return a.grade?.localeCompare(b.grade) || 0;
       return 0;
     });
 
@@ -601,6 +679,7 @@ const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setShortnotes(shortnotes.filter((note) => note._id !== id));
+      fetchShortnotes();
     } catch (error) {
       console.error('Error deleting shortnote:', error);
     }
@@ -608,6 +687,13 @@ const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
 
   const handleUpdate = (note) => {
     setQuickActionView(['addShortnote', { initialData: note }]);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString || isNaN(new Date(dateString).getTime())) {
+      return 'Date unavailable';
+    }
+    return new Date(dateString).toLocaleDateString();
   };
 
   return (
@@ -627,10 +713,9 @@ const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
               {recentShortnotes.length > 0 ? (
                 recentShortnotes.map((note) => (
                   <div key={note._id} className="recent-shortnote-card" tabIndex="0">
-                    <h4>{note.title}</h4>
-                    <p><strong>Chapter:</strong> {note.chapter}</p>
-                    <p><strong>Grade:</strong> {note.grade}</p>
-                    <p><strong>Uploaded:</strong> {new Date(note.uploadedAt).toLocaleDateString()}</p>
+                    <h4>{note.title || 'Untitled'}</h4>
+                    <p><strong>Chapter:</strong> {note.chapter || 'N/A'}</p>
+                    <p><strong>Grade:</strong> {note.grade || 'N/A'}</p>
                   </div>
                 ))
               ) : (
@@ -683,21 +768,21 @@ const ShortnotesContent = ({ setQuickActionView, assignedSubject }) => {
               {filteredShortnotes.length > 0 ? (
                 filteredShortnotes.map((note) => (
                   <tr key={note._id}>
-                    <td>{note.chapter}</td>
-                    <td>{note.title}</td>
-                    <td>{note.grade}</td>
+                    <td>{note.chapter || 'N/A'}</td>
+                    <td>{note.title || 'Untitled'}</td>
+                    <td>{note.grade || 'N/A'}</td>
                     <td>
                       <button
                         className="action-button update"
                         onClick={() => handleUpdate(note)}
-                        aria-label={`Update ${note.title}`}
+                        aria-label={`Update ${note.title || 'shortnote'}`}
                       >
                         Update
                       </button>
                       <button
                         className="action-button delete"
                         onClick={() => handleDelete(note._id)}
-                        aria-label={`Delete ${note.title}`}
+                        aria-label={`Delete ${note.title || 'shortnote'}`}
                       >
                         Delete
                       </button>
@@ -1126,5 +1211,3 @@ const TeacherBoard = () => {
 };
 
 export default TeacherBoard;
-
-

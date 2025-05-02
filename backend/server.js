@@ -1,4 +1,3 @@
-
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
@@ -88,18 +87,25 @@ app.use('/api/v1/profile', profileRoute);
 
 // Recent activity route
 const recentActivityRoute = require('./router/recentActivityRouter');
-app.use('/api/v1/recent-activities', recentActivityRoute); // Updated to plural
+app.use('/api/v1/recent-activities', recentActivityRoute);
 
 // Chart data route
 const chartDataRoutes = require("./router/chartDataRouter");
 app.use("/api/v1", chartDataRoutes);
+
+// Teacher stats route
+const teacherStatsRoutes = require("./router/teacherStatsRouter");
+app.use("/api/v1", teacherStatsRoutes);
+
+// Exam analysis route
+const examAnalysisRoutes = require("./router/leaderboard/examAnalysisRouter");
+app.use("/api/v1/exam-analysis", examAnalysisRoutes);
 
 // Connection
 const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log(`The server running on ${port}`);
 });
-
 
 // const express = require("express");
 // const morgan = require("morgan");

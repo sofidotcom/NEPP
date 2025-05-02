@@ -7,18 +7,14 @@ const getRecentActivities = async (req, res) => {
     console.log('Fetching activities for teacherId:', teacherId);
 
     const activities = await RecentActivity.aggregate([
-      // Match activities for the teacher
       { $match: { teacherId } },
-      // Sort by createdAt descending
       { $sort: { createdAt: -1 } },
-      // Group by activityType, taking the first document
       {
         $group: {
           _id: '$activityType',
           activity: { $first: '$$ROOT' }
         }
       },
-      // Project the desired fields
       {
         $project: {
           _id: '$activity._id',
@@ -28,7 +24,6 @@ const getRecentActivities = async (req, res) => {
           resourceId: '$activity.resourceId'
         }
       },
-      // Sort by createdAt
       { $sort: { createdAt: -1 } }
     ]);
 

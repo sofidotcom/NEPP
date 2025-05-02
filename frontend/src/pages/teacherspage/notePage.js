@@ -3,13 +3,14 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import '../../css/noteadd.css';
 
-const UploadNoteForm = () => {
+const UploadNoteForm = ({ initialData }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     subject: '',
     grade: '9',
-    chapter: ''
+    chapter: '',
+    _id: null
   });
   const [message, setMessage] = useState('');
 
@@ -26,7 +27,17 @@ const UploadNoteForm = () => {
         console.error('Error decoding token:', error);
       }
     }
-  }, []);
+    if (initialData) {
+      setFormData({
+        title: initialData.title || '',
+        description: initialData.description || '',
+        subject: initialData.subject || '',
+        grade: initialData.grade || '9',
+        chapter: initialData.chapter || '',
+        _id: initialData._id || null
+      });
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,12 +52,23 @@ const UploadNoteForm = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.post('/api/v1/notes', formData, {
-        headers: {
-          Authorization: `Bearer ${token}` // ✅ Include token
-        }
-      });
-      setMessage('Note created successfully!');
+      if (formData._id) {
+        // Update existing note
+        const response = await axios.put(`/api/v1/notes/${formData._id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setMessage('Note updated successfully!');
+      } else {
+        // Create new note
+        const response = await axios.post('/api/v1/notes', formData, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setMessage('Note created successfully!');
+      }
 
       // Clear form except subject
       setFormData(prev => ({
@@ -54,12 +76,11 @@ const UploadNoteForm = () => {
         description: '',
         subject: prev.subject,
         grade: '9',
-        chapter: ''
+        chapter: '',
+        _id: null
       }));
-
-      console.log(response.data);
     } catch (error) {
-      setMessage('Error creating note');
+      setMessage(formData._id ? 'Error updating note' : 'Error creating note');
       console.error(error);
     }
   };
@@ -119,7 +140,7 @@ const UploadNoteForm = () => {
             required
           />
         </div>
-        <button type="submit">Add Note</button>
+        <button type="submit">{formData._id ? 'Update Note' : 'Add Note'}</button>
       </form>
       {message && (
         <p className={message.includes('success') ? 'success-message' : 'error-message'}>

@@ -8,7 +8,7 @@ const recentActivitySchema = new mongoose.Schema({
   },
   activityType: {
     type: String,
-    enum: ['note_added', 'pdf_added', 'quiz_added', 'exam_added', 'chatroom_created', 'tip_added'],
+    enum: ['note_added', 'note_updated', 'note_deleted', 'pdf_added', 'quiz_added', 'exam_added', 'chatroom_created', 'tip_added'],
     required: true
   },
   description: {

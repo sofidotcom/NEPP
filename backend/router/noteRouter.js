@@ -1,9 +1,11 @@
 const express = require('express');
-const noteController = require('../controller/noteController');
-const verifyToken = require('../middleware/authMiddleware'); // ✅ Import middleware
 const router = express.Router();
+const noteController = require('../controller/noteController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.post('/', verifyToken, noteController.createNote);  // ✅ Add token check
-router.get('/', noteController.getAllNotes);
+router.post('/', authMiddleware, noteController.createNote);
+router.get('/', authMiddleware, noteController.getAllNotes);
+router.put('/:id', authMiddleware, noteController.updateNote);
+router.delete('/:id', authMiddleware, noteController.deleteNote);
 
 module.exports = router;
