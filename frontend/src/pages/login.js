@@ -4,7 +4,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import loginimage from "../images/book5.jpg"
+import loginimage from "../images/icon4.avif"
 import "../css/login.css"
 
 const Login = () => {
@@ -62,8 +62,7 @@ const Login = () => {
             </label>
             <div className="options">
               <label>
-                <input type="checkbox" />
-                Remember me
+                <input type="checkbox"/><p>&nbsp;Remember_me</p>
               </label>
               <a href="#">Forgot password?</a>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import signupImage from '../images/pc2.jpg'; // Replace with your image
+import signupImage from '../images/icon1.png'; // Replace with your image
 import '../css/signup.css'; // Import the CSS file
 
 const SignUp = () => {

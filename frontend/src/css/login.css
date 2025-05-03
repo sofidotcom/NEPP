@@ -1,11 +1,14 @@
-/* .login-page-container {
+/* Login.css */
+
+.login-page-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: #f3f3f3;
+    min-height: 100vh; 
     margin-left: 5%;
-    width: 100%;
+    margin: 0px 20%;
+
+ 
 }
 
 .login-content {
@@ -21,17 +24,17 @@
 
 .login-form-section {
     padding: 40px;
-    width: 50%;
+    width: 50%; /* Half of the container */
 }
 
 .login-image-section {
-    width: 50%;
+    width: 50%; /* Half of the container */
 }
 
 .login-image-section img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Ensures the image covers the area */
 }
 
 .login-page-container h1 {
@@ -61,10 +64,15 @@
 .login-page-container .options {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
     align-items: center;
     margin-bottom: 20px;
 }
-
+.login-page-container .options label{
+   display: flex;
+   flex-direction: row;
+  
+}
 .login-page-container button {
     background: #388e3c;
     color: white;
@@ -106,10 +114,10 @@
     }
 
     .login-image-section {
-        display: none;
+        display: none; /* Hide image on smaller screens */
     }
 
     .login-form-section {
         padding: 20px;
     }
-} */
+}
