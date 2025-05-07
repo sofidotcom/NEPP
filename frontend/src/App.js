@@ -32,13 +32,13 @@ import StudentDisplay from './pages/adminpage/studentDisplay';
 import TeacherDisplay from './pages/adminpage/displayTeachers';
 import SocialStudentPage from './pages/studentspage/socialStudentPage';
 import SocialSidebarR from './pages/studentspage/socialSidebar';
-
+import OtpPage from './pages/otp';
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Index />} />
+        <Route path="/opt" element={<OtpPage/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
@@ -49,6 +49,7 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/el" element={<EntranceLeaderboard />} />
         <Route path="/ql" element={<QuizLeaderboard />} />
+
 
         {/* Protected Routes - Require authentication */}
         <Route element={<ProtectedRoute />}>
