@@ -17,7 +17,16 @@ const studentSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: [true, 'Phone number must be filled'],
-        match: /^09\d{8}$/ // Ensures 10 digits, starting with '09'
+        match: /^\+251\d{9}$/ // Ensures 12 digits, starting with '+251' followed by 9 digits
+    },
+    stream: {
+        type: String,
+        enum: ['Natural', 'Social'],
+        required: [true, 'Stream must be selected']
+    },
+    yourGoal: {
+        type: Number,
+        required: [true, 'Goal must be filled']
     },
     role: {
         type: String,

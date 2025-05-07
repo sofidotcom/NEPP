@@ -5,8 +5,8 @@ import Index from './pages';
 import Signup from './pages/signup';
 import Login from './pages/login';
 import Logout from './pages/logout';
-import ForgotPassword from './pages/forgotPassword'; // New import
-import ResetPassword from './pages/resetPassword'; // New import
+import ForgotPassword from './pages/forgotPassword';
+import ResetPassword from './pages/resetPassword';
 import ProtectedRoute from './pages/auth/protectedRoute';
 import TeacherSignup from './pages/adminpage/registerTeacher';
 import StudentPage from './pages/studentspage/studentPage';
@@ -30,6 +30,8 @@ import EntranceLeaderboard from './pages/components/entranceLeaderBoard';
 import QuizLeaderboard from './pages/components/quizLeaderboard';
 import StudentDisplay from './pages/adminpage/studentDisplay';
 import TeacherDisplay from './pages/adminpage/displayTeachers';
+import SocialStudentPage from './pages/studentspage/socialStudentPage';
+import SocialSidebarR from './pages/studentspage/socialSidebar';
 
 const App = () => {
   return (
@@ -37,7 +39,6 @@ const App = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Index />} />
-      
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
@@ -48,9 +49,11 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/el" element={<EntranceLeaderboard />} />
         <Route path="/ql" element={<QuizLeaderboard />} />
-        {/* Protected Routes */}
+
+        {/* Protected Routes - Require authentication */}
         <Route element={<ProtectedRoute />}>
           <Route path="/sidebar" element={<SidebarR />} />
+          <Route path="/ssidebar" element={<SocialSidebarR />} />
           <Route path="/BiologyAddEntrance" element={<BiologyAddEntrance />} />
           <Route path="/BiologyExam" element={<BiologyExam />} />
           <Route path="/quiz" element={<BioExamDisplay />} />
@@ -63,7 +66,9 @@ const App = () => {
           <Route path="/studentDisplay" element={<StudentDisplay />} />
           <Route path="/teacherDisplay" element={<TeacherDisplay />} />
           <Route path="/profile/:id" element={<Profile />} />
+          {/* Student dashboard routes based on stream */}
           <Route path="/student/:id" element={<StudentPage />} />
+          <Route path="/Social/:id" element={<SocialStudentPage />} />
           <Route path="/teacher/:id" element={<TeacherBoard />} />
           <Route path="/chat-rooms" element={<ChatRoomsList />} />
           <Route path="/chat-room/:roomId" element={<ChatRoom />} />

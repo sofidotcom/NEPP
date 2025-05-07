@@ -9,15 +9,24 @@ const SignUp = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phoneNumber, setphoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [stream, setStream] = useState('');
+    const [yourGoal, setYourGoal] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const handlePhoneChange = (e) => {
+        const value = e.target.value;
+        // Ensure the input starts with +251 and allows only digits after
+        if (value.startsWith('+251') || value === '') {
+            setPhoneNumber(value);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/v1/signup/', { name, email, password, phoneNumber });
+            const response = await axios.post('/api/v1/signup/', { name, email, password, phoneNumber, stream, yourGoal });
             localStorage.setItem('userId', response.data.userId);
-            // navigate(response.data.redirect);
             navigate('/login');
         } catch (error) {
             if (error.response) {
@@ -65,13 +74,40 @@ const SignUp = () => {
                                 required
                             />
                         </label>
-                         <label>
-                            phoneNumber
+                        <label>
+                            Phone Number
+                            <div className="phone-input">
+                                <span className="country-code">+251</span>
+                                <input
+                                    type="text"
+                                    value={phoneNumber.slice(4)} // Remove +251 for display
+                                    onChange={(e) => setPhoneNumber('+251' + e.target.value.replace(/\D/g, ''))}
+                                    placeholder="Enter your phone number"
+                                    required
+                                    pattern="\d{9}"
+                                    maxLength="9"
+                                />
+                            </div>
+                        </label>
+                        <label>
+                            Stream
+                            <select
+                                value={stream}
+                                onChange={(e) => setStream(e.target.value)}
+                                required
+                            >
+                                <option value="" disabled>Select your stream</option>
+                                <option value="Natural">Natural</option>
+                                <option value="Social">Social</option>
+                            </select>
+                        </label>
+                        <label>
+                            Your Goal
                             <input
-                                type="password"
-                                value={phoneNumber}
-                                onChange={(e) => setphoneNumber(e.target.value)}
-                                placeholder="09 enter yourphone number"
+                                type="number"
+                                value={yourGoal}
+                                onChange={(e) => setYourGoal(e.target.value)}
+                                placeholder="Enter your goal"
                                 required
                             />
                         </label>

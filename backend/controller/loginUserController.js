@@ -20,12 +20,13 @@ const loginController = async (req, res) => {
         {
           userId: student._id,
           role: student.role, // super_admin or student
+          stream: student.stream, // Include stream in token
         },
         'yourSecretKey', // 🔐 Replace this with an env var in production!
         { expiresIn: '1h' }
       );
 
-      // Redirect based on student role
+      // Redirect based on student role and stream
       switch (student.role) {
         case "super_admin":
           return res.status(200).json({
@@ -37,9 +38,10 @@ const loginController = async (req, res) => {
         case "student":
           return res.status(200).json({
             token,
-            redirect: `/student/${student._id}`,
+            redirect: student.stream === "Natural" ? `/student/${student._id}` : `/Social/${student._id}`,
             userId: student._id,
             role: "student",
+            stream: student.stream,
           });
         default:
           return res.status(400).send({ message: "Invalid role" });
@@ -61,7 +63,7 @@ const loginController = async (req, res) => {
           role: "teacher",
           subject: teacher.subject, // 👈 include the assigned subject
         },
-        'yourSecretKey', // 🔐 Replace with an env var in production!
+        'yourSecretKey', // 🔐 Replace this with an env var in production!
         { expiresIn: '1h' }
       );
 

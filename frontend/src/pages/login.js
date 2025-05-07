@@ -19,6 +19,7 @@ const Login = () => {
       localStorage.setItem("userId", response.data.userId)
       localStorage.setItem("userRole", response.data.role) // Store role for future use
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("stream", response.data.stream); // Store stream for future use
       navigate(response.data.redirect)
     } catch (error) {
       if (error.response) {

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react"
 import "../../css/Sidebar.css"
 import { Link, useLocation } from "react-router-dom"
 
-
 // You can replace these with actual icon imports if you have an icon library
 const Icons = {
   home: "🏠",
@@ -138,9 +137,8 @@ const SidebarR = ({ student }) => {
     })
   }
 
-  // MODIFIED: Helper to render note links by grade instead of by type
+  // Helper to render note links by grade
   const renderNoteLinks = (subject) => {
-    // Changed from note types to grade levels
     const grades = [
       { id: "grade9", label: "Grade 9", icon: "9️⃣" },
       { id: "grade10", label: "Grade 10", icon: "🔟" },
@@ -176,29 +174,21 @@ const SidebarR = ({ student }) => {
       </div>
 
       <div className="sidebar-r-section">
-        <div className={`sidebar-r-section-header ${isActive("/student/68062373424518fedf2fd0e2") ? "active" : ""}`}>
-          <Link to={`/student/id`} className="sidebar-r-navv">
+        <div className={`sidebar-r-section-header ${isActive(`/student/${student?._id || "default"}`) ? "active" : ""}`}>
+          <Link to={`/student/${student?._id || "default"}`} className="sidebar-r-navv">
             <span className="nav-icon">{Icons.home}</span>
             Home
           </Link>
         </div>
 
-        <div
-          className={`sidebar-r-section-header ${isOpen("courses") ? "active" : ""}`}
-          onClick={() => toggleSection("courses")}
-          style={getAnimationDelay(1)}
-        >
-          <span>
-            <span className="nav-icon">{Icons.courses}</span>
-            Study Materials
-          </span>
-          <span>{isOpen("courses") ? Icons.arrow.down : Icons.arrow.right}</span>
-        </div>
+        <div className="sidebar-r-folder-item">
+                    <Link to="/download" className="sidebar-r-navv">Study</Link>
+         </div>
 
         {isOpen("courses") && (
           <div className="sidebar-r-section-content">
             {/* Biology Section */}
-            <div className="sidebar-r-folder-item" style={getAnimationDelay(2)}>
+            {/* <div className="sidebar-r-folder-item" style={getAnimationDelay(2)}>
               <div
                 className={`sidebar-r-sub-section-header ${isOpen("biology") ? "active" : ""}`}
                 onClick={() => toggleSection("biology")}
@@ -210,10 +200,10 @@ const SidebarR = ({ student }) => {
                 <span>{isOpen("biology") ? Icons.arrow.down : Icons.arrow.right}</span>
               </div>
               {isOpen("biology") && <div className="sidebar-r-sub-folder">{renderGradeLinks("biology")}</div>}
-            </div>
+            </div> */}
 
             {/* Chemistry Section */}
-            <div className="sidebar-r-folder-item" style={getAnimationDelay(3)}>
+            {/* <div className="sidebar-r-folder-item" style={getAnimationDelay(3)}>
               <div
                 className={`sidebar-r-sub-section-header ${isOpen("chemistry") ? "active" : ""}`}
                 onClick={() => toggleSection("chemistry")}
@@ -225,10 +215,10 @@ const SidebarR = ({ student }) => {
                 <span>{isOpen("chemistry") ? Icons.arrow.down : Icons.arrow.right}</span>
               </div>
               {isOpen("chemistry") && <div className="sidebar-r-sub-folder">{renderGradeLinks("chemistry")}</div>}
-            </div>
+            </div> */}
 
             {/* Physics Section */}
-            <div className="sidebar-r-folder-item" style={getAnimationDelay(4)}>
+            {/* <div className="sidebar-r-folder-item" style={getAnimationDelay(4)}>
               <div
                 className={`sidebar-r-sub-section-header ${isOpen("physics") ? "active" : ""}`}
                 onClick={() => toggleSection("physics")}
@@ -240,12 +230,12 @@ const SidebarR = ({ student }) => {
                 <span>{isOpen("physics") ? Icons.arrow.down : Icons.arrow.right}</span>
               </div>
               {isOpen("physics") && <div className="sidebar-r-sub-folder">{renderGradeLinks("physics")}</div>}
-            </div>
+            </div> */}
           </div>
         )}
       </div>
 
-      {/* Notes Section - Modified to use grade-based organization */}
+      {/* Notes Section */}
       <div className="sidebar-r-section">
         <div
           className={`sidebar-r-section-header ${isOpen("notes") ? "active" : ""}`}
@@ -396,10 +386,10 @@ const SidebarR = ({ student }) => {
 
       <div className="sidebar-r-section">
         <div
-          className={`sidebar-r-section-header ${isActive(`/student/${student?.id || "default"}/tips`) ? "active" : ""}`}
+          className={`sidebar-r-section-header ${isActive(`/student/${student?._id || "default"}/tips`) ? "active" : ""}`}
           style={getAnimationDelay(12)}
         >
-          <Link to={`/student/${student?.id || "default"}/tips`} className="sidebar-r-navv" onClick={closeAllDropdowns}>
+          <Link to={`/student/${student?._id || "default"}/tips`} className="sidebar-r-navv" onClick={closeAllDropdowns}>
             <span className="nav-icon">{Icons.tips}</span>
             Tips & Tricks
           </Link>
