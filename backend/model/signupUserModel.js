@@ -23,6 +23,14 @@ const studentSchema = new mongoose.Schema({
         type: String,
         enum: ['student', 'super_admin'],
         default: 'student'
+    },
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
     }
 }, { timestamps: true }); // Enable createdAt and updatedAt
 

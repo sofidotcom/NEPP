@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import "../css/index.css"
+import "../css/topPerformance.css"
 import { Link } from "react-router-dom"
 import biology from "../images/biology.jfif"
 import aptitude from "../images/aptitude.jfif"
@@ -63,6 +64,8 @@ const Index = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSubject, setActiveSubject] = useState(null)
+  const [topPerformers, setTopPerformers] = useState(null)
+  const [currentDisplay, setCurrentDisplay] = useState(null)
 
   // List of subjects
   const subjectList = [
@@ -79,6 +82,35 @@ const Index = () => {
     { name: "Geography", img: geography, route: "/subjects/geography" },
     { name: "Miscellaneous Questions", img: questions, route: "/subjects/misc" },
   ]
+
+  // Fetch top performers
+  useEffect(() => {
+    const fetchTopPerformers = async () => {
+      try {
+        const response = await fetch('/api/v1/top-performers')
+        if (!response.ok) throw new Error('Failed to fetch top performers')
+        const data = await response.json()
+        setTopPerformers(data)
+      } catch (error) {
+        console.error("Error fetching top performers:", error)
+        setTopPerformers({})
+      }
+    }
+    fetchTopPerformers()
+  }, [])
+
+  // Handle animation sequence with repeating loop
+  useEffect(() => {
+    if (topPerformers && Object.keys(topPerformers).length > 0) {
+      const years = ['2014', '2015', '2016', 'overall']
+      let index = 0
+      const interval = setInterval(() => {
+        setCurrentDisplay(years[index])
+        index = (index + 1) % years.length // Loop back to 0 when reaching the end
+      }, 6000) // 6 seconds per display
+      return () => clearInterval(interval)
+    }
+  }, [topPerformers])
 
   // Handle scroll for header styling
   useEffect(() => {
@@ -99,6 +131,16 @@ const Index = () => {
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible)
+  }
+
+  // Medal icons based on rank
+  const getMedalIcon = (rank) => {
+    switch (rank) {
+      case 1: return <i className="fas fa-medal" style={{ color: 'gold' }}></i>;
+      case 2: return <i className="fas fa-medal" style={{ color: 'silver' }}></i>;
+      case 3: return <i className="fas fa-medal" style={{ color: '#cd7f32' }}></i>;
+      default: return null;
+    }
   }
 
   return (
@@ -140,6 +182,63 @@ const Index = () => {
           </div>
           <div className="hero-image">
             <img src={subjects || "/placeholder.svg"} alt="Students learning" />
+          </div>
+        </div>
+
+        {/* Top Performers Section */}
+        <div className="top-performers-section">
+          <h2>Our Top Performers</h2>
+          <div className="performers-container">
+            {topPerformers && Object.keys(topPerformers).length > 0 ? (
+              <>
+                {currentDisplay === '2014' && topPerformers['2014'] && (
+                  <div className="performer-card animate">
+                    <h3>Top Performers of 2014</h3>
+                    {topPerformers['2014'].map((performer) => (
+                      <div key={performer.rank} className="performer-item">
+                        <p>{getMedalIcon(performer.rank)} Rank {performer.rank}: {performer.name}</p>
+                        <p>Score: {performer.totalScore}/{performer.totalPossible}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {currentDisplay === '2015' && topPerformers['2015'] && (
+                  <div className="performer-card animate">
+                    <h3>Top Performers of 2015</h3>
+                    {topPerformers['2015'].map((performer) => (
+                      <div key={performer.rank} className="performer-item">
+                        <p>{getMedalIcon(performer.rank)} Rank {performer.rank}: {performer.name}</p>
+                        <p>Score: {performer.totalScore}/{performer.totalPossible}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {currentDisplay === '2016' && topPerformers['2016'] && (
+                  <div className="performer-card animate">
+                    <h3>Top Performers of 2016</h3>
+                    {topPerformers['2016'].map((performer) => (
+                      <div key={performer.rank} className="performer-item">
+                        <p>{getMedalIcon(performer.rank)} Rank {performer.rank}: {performer.name}</p>
+                        <p>Score: {performer.totalScore}/{performer.totalPossible}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {currentDisplay === 'overall' && topPerformers.overall && (
+                  <div className="performer-card animate">
+                    <h3>All-Time Top Performers</h3>
+                    {topPerformers.overall.map((performer) => (
+                      <div key={performer.rank} className="performer-item">
+                        <p>{getMedalIcon(performer.rank)} Rank {performer.rank}: {performer.name}</p>
+                        <p>Score: {performer.totalScore}/{performer.totalPossible}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <p>No top performers data available.</p>
+            )}
           </div>
         </div>
 
@@ -196,13 +295,13 @@ const Index = () => {
                 return true
               })
               .map((subject, index) => (
-                <span className="card">
+                <Link to={subject.route} key={index} className="card">
                   <div className="card-image">
                     <img src={subject.img || "/placeholder.svg"} alt={subject.name} />
                   </div>
                   <h3>{subject.name}</h3>
                   <div className="card-overlay"></div>
-                </span>
+                </Link>
               ))}
           </div>
         </div>

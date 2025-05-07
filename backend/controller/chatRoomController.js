@@ -158,7 +158,7 @@ const joinChatRoom = async (req, res) => {
       message: "Successfully joined the chat room",
     });
   } catch (error) {
-    console.error("Join偶Join chat room error:", error);
+    console.error("Join chat room error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to join chat room",
@@ -245,6 +245,62 @@ const addModerator = async (req, res) => {
   }
 };
 
+// Delete a chat room
+const deleteChatRoom = async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    // Log user details for debugging
+    console.log("Delete chat room request - User:", req.user);
+
+    // Verify the user has appropriate permissions
+    if (!["admin", "super_admin"].includes(req.user.role)) {
+      console.log(`Access denied - User role: ${req.user.role}`);
+      return res.status(403).json({
+        success: false,
+        message: "Only admins or super_admins can delete chat rooms",
+      });
+    }
+
+    const chatRoom = await ChatRoom.findById(roomId);
+
+    if (!chatRoom) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat room not found",
+      });
+    }
+
+    await ChatRoom.deleteOne({ _id: roomId });
+
+    // Save recent activity
+    try {
+      const activity = new RecentActivity({
+        teacherId: new mongoose.Types.ObjectId(req.user.userId),
+        activityType: "chatroom_deleted",
+        description: `Deleted chat room with ID: ${roomId}`,
+        resourceId: roomId,
+      });
+      await activity.save();
+      console.log("Recent activity logged for chat room deletion");
+    } catch (activityError) {
+      console.error("Error logging recent activity:", activityError);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Chat room deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete chat room error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete chat room",
+      error: error.message,
+    });
+  }
+};
+
 // Count all chat rooms
 const countChatRooms = async (req, res) => {
   try {
@@ -270,6 +326,7 @@ module.exports = {
   getChatRoomById,
   joinChatRoom,
   addModerator,
+  deleteChatRoom,
   countChatRooms,
 };
 

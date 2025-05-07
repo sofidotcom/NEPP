@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -19,10 +18,7 @@ const Login = () => {
       const response = await axios.post("/api/v1/login/", { email, password })
       localStorage.setItem("userId", response.data.userId)
       localStorage.setItem("userRole", response.data.role) // Store role for future use
-
-       localStorage.setItem("token", response.data.token);
-
-       
+      localStorage.setItem("token", response.data.token);
       navigate(response.data.redirect)
     } catch (error) {
       if (error.response) {
@@ -64,13 +60,12 @@ const Login = () => {
               <label>
                 <input type="checkbox"/><p>&nbsp;Remember_me</p>
               </label>
-              <a href="#">Forgot password?</a>
+              <a href="/forgot-password">Forgot password?</a>
             </div>
             <button type="submit">Login</button>
           </form>
           <p>
             Not registered yet? Create an account as a <a href="/signup">student</a> 
-            
           </p>
         </div>
         <div className="login-image-section">

@@ -1,30 +1,32 @@
-const express = require("express")
-const router = express.Router()
-const verifyToken = require("../middleware/authMiddleware")
+const express = require("express");
+const router = express.Router();
+const verifyToken = require("../middleware/authMiddleware");
 const {
   createChatRoom,
   getAllChatRooms,
   getChatRoomById,
   joinChatRoom,
   addModerator,
+  deleteChatRoom,
   countChatRooms,
-} = require("../controller/chatRoomController")
-const { sendMessage, getMessages, moderateMessage } = require("../controller/messageController")
+} = require("../controller/chatRoomController");
+const { sendMessage, getMessages, moderateMessage } = require("../controller/messageController");
 
 // Chat room routes
-router.post("/rooms", verifyToken, createChatRoom)
-router.get("/rooms", verifyToken, getAllChatRooms)
-router.get("/rooms/:roomId", verifyToken, getChatRoomById)
-router.post("/rooms/:roomId/join", verifyToken, joinChatRoom)
-router.post("/rooms/moderator", verifyToken, addModerator)
-router.get("/count", verifyToken, countChatRooms)
+router.post("/rooms", verifyToken, createChatRoom);
+router.get("/rooms", verifyToken, getAllChatRooms);
+router.get("/rooms/:roomId", verifyToken, getChatRoomById);
+router.post("/rooms/:roomId/join", verifyToken, joinChatRoom);
+router.post("/rooms/moderator", verifyToken, addModerator);
+router.delete("/rooms/:roomId", verifyToken, deleteChatRoom);
+router.get("/count", verifyToken, countChatRooms);
 
 // Message routes
-router.post("/messages", verifyToken, sendMessage)
-router.get("/rooms/:roomId/messages", verifyToken, getMessages)
-router.patch("/messages/:messageId/moderate", verifyToken, moderateMessage)
+router.post("/messages", verifyToken, sendMessage);
+router.get("/rooms/:roomId/messages", verifyToken, getMessages);
+router.patch("/messages/:messageId/moderate", verifyToken, moderateMessage);
 
-module.exports = router
+module.exports = router;
 
 
 
